@@ -1,0 +1,154 @@
+/*
+
+This less file only for story pages.
+
+*/
+@import "var/config";
+
+// STORY
+
+.btn-story {
+  border-radius: 20px;
+  letter-spacing: 2px;
+  margin-top: 15px;
+  padding: 10px 40px;
+  text-transform: lowercase;
+}
+
+.btn-story-2 {
+  border-radius: 20px;
+  letter-spacing: 2px;
+  margin-top: 15px;
+  padding: 10px 80px;
+  text-transform: lowercase;
+}
+
+.scrollmore {
+  bottom: 70px;
+  color: #fff !important;
+  font-size: 12px;
+  margin-left: -19px;
+  left: 50%;
+  letter-spacing: 2px;
+  position: absolute;
+  text-transform: uppercase;
+  z-index: 11;
+  &:hover {
+    opacity: 0.5 !important;
+  }
+}
+
+.story {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #fff;
+  display: inline-block;
+  float: left;
+  min-height: 100%;
+  height: 620px;
+  /* For Screen Higher than 1400px */
+  @media (min-width: 1401px) {
+    height: 840px;
+  }
+
+  @media (min-width: 1900px) {
+    height: 1040px;
+  }
+
+  position: relative;
+  width: 100%;
+
+  .background-overly {
+    .crossbrowseropacity (black, .55);
+  }
+
+  .storyText {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 1400px) {
+    .storyText {
+      max-width: 645px;
+    }
+  }
+
+  h1 {
+    color: inherit;
+    cursor: pointer;
+    display: block;
+    font-size: 45px;
+    font-weight: 200;
+    line-height: 45px;
+    margin: 0;
+    text-align: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  h2 {
+    color: #fff;
+    display: inline-block;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 24px;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+    padding: 0;
+  }
+
+  .fil {
+    background: #fff;
+    color: #020416;
+    display: inline-block;
+    font-size: 24px;
+    font-weight: lighter;
+    line-height: 24px;
+    margin-bottom: 15px;
+    padding: 5px 10px;
+  }
+
+  p {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 22px;
+    text-align: inherit;
+
+  }
+  .text-center {
+    p {
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  .btn {
+    margin-top: 5px;
+  }
+  .sform {
+    max-width: 280px;
+    margin: 30px auto 0;
+    clear: both;
+
+    input.form-control {
+      height: 42px;
+      border-radius: 20px;
+      text-align: center;
+      border: 0;
+      .crossbrowseropacity (white, .85);
+    }
+  }
+
+}
+
+// Responsive Issue
+
+@desktop: ~"only screen and (min-width: 960px) and (max-width: 1199px)";
+@tablet: ~"only screen and (min-width: 720px) and (max-width: 959px)";
+@mobile: ~"only screen and (min-width: 0) and (max-width: 767px)";
+
+@media @mobile {
+}

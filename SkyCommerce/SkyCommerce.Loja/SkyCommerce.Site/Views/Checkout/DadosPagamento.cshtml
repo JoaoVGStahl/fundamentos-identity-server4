@@ -1,0 +1,694 @@
+﻿@using SkyCommerce.Extensions
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Pagar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts{
+
+    <script>
+
+
+        $(document).ready(function () {
+            $('mesCartao').val('@Model.CartaoCredito.Mes');
+            $('anoCartao').val('@Model.CartaoCredito.Ano');
+
+            $('input#newAddress').on('ifChanged', function (event) {
+                //alert(event.type + ' callback');
+                $('#newShippingAddressBox').collapse("show");
+                $('#exisitingShippingAddressBox').collapse("hide");
+
+            });
+
+            $('input#exisitingShippingAddress').on('ifChanged', function (event) {
+                //alert(event.type + ' callback');
+                $('#newShippingAddressBox').collapse("hide");
+                $('#exisitingShippingAddressBox').collapse("show");
+            });
+
+
+            $('input#newBillingAddress').on('ifChanged', function (event) {
+                //alert(event.type + ' callback');
+                $('#newBillingAddressBox').collapse("show");
+
+            });
+
+            $('input#existingBillingAddress').on('ifChanged', function (event) {
+                //alert(event.type + ' callback');
+                $('#newBillingAddressBox').collapse("hide");
+
+            });
+
+
+            $('input#creditCard').on('ifChanged', function (event) {
+                //alert(event.type + ' callback');
+                $('#creditCardCollapse').collapse("toggle");
+
+            });
+
+
+            $('input#CashOnDelivery').on('ifChanged', function (event) {
+                //alert(event.type + ' callback');
+                $('#CashOnDeliveryCollapse').collapse("toggle");
+
+            });
+
+
+        });
+
+
+    </script>
+}
+
+<!-- /.Fixed navbar  -->
+<div class="container main-container headerOffset">
+    <div class="row">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li><a asp-controller="Carrinho" asp-action="Index">Carrinho</a></li>
+                <li> Checkout</li>
+                <li><a asp-controller="Checkout" asp-action="Index">Cupom & Frete</a></li>
+                <li class="active"> Dados Pagamento</li>
+            </ul>
+        </div>
+    </div>
+    <!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-7">
+            <h1 class="section-title-inner">
+                <span>
+                    <i class="glyphicon glyphicon-shopping-cart"></i> FINALIZAR COMPRA
+                </span>
+            </h1>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar">
+            <h4 class="caps"><a asp-action="Index" asp-controller="Home"><i class="fa fa-chevron-left"></i> Continuar comprando </a></h4>
+        </div>
+    </div>
+    <!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            @if (Model.Erro.IsPresent())
+            {
+                <div class="alert alert-danger">
+                    <strong>Erros</strong><br />
+                    @Model.Erro
+                </div>
+            }
+            <div class="row userInfo">
+                <div class="col-xs-12 col-sm-12">
+
+
+                    <div class="w100 clearfix">
+                        <div class="row userInfo">
+
+                            <div style="clear: both"></div>
+
+                            <div class="onepage-checkout col-lg-12">
+
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <form asp-action="DadosPagamento" id="formPagamento" asp-controller="Checkout">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingOne">
+                                                <h4 class="panel-title">
+                                                    <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                                       href="#ShippingInformation" aria-expanded="true"
+                                                       aria-controls="ShippingInformation">
+                                                        Endereço de entrega
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="ShippingInformation" class="panel-collapse collapse in" role="tabpanel"
+                                                 aria-labelledby="ShippingInformation">
+                                                <div class="panel-body">
+                                                    <label class="radio inline">
+                                                        <input id="exisitingShippingAddress" type="radio" value="true"
+                                                               asp-for="UtilizarEnderecoCadastrado"> Usar endereço cadastrado
+                                                    </label>&nbsp;&nbsp;
+                                                    <label class="radio inline">
+                                                        <input id="newAddress" type="radio" value="option2" name="addShipping">
+                                                        Novo endereço
+                                                    </label>
+
+                                                    <hr>
+
+                                                    <div style="clear: both"></div>
+
+                                                    <div id="exisitingShippingAddressBox" class="collapse in">
+                                                        <div class="form-group uppercase">
+                                                            <strong>
+                                                                Endereços cadastrados
+                                                            </strong>
+                                                        </div>
+
+                                                        <div class="form-group required maxwidth300">
+                                                            <label for="InputCountry">
+                                                                Selecione <sup>*</sup>
+                                                            </label>
+                                                            <select class="form-control" required aria-required="true"
+                                                                    id="SelectAddress" asp-for="NomeEnderecoCadastrado">
+                                                                @foreach (var endereco in Model.EnderecosUsuario)
+                                                                {
+                                                                    <option value="@endereco.NomeEndereco">@endereco.NomeEndereco (@endereco.Logradouro)</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div id="newShippingAddressBox" class="collapse">
+
+                                                        <div class="form-group uppercase">
+                                                            <strong>
+                                                                Outro endereço
+                                                            </strong>
+                                                        </div>
+
+
+                                                        <div class="col-xs-12 col-sm-6">
+                                                            <div class="form-group required">
+                                                                <label asp-for="EnderecoEntrega.Nome">Nome <sup>*</sup> </label>
+                                                                <input required type="text" class="form-control"
+                                                                       placeholder="Nome" asp-for="EnderecoEntrega.Nome">
+                                                            </div>
+                                                            <div class="form-group required">
+                                                                <label asp-for="EnderecoEntrega.Sobrenome">
+                                                                    Last Name <sup>*</sup>
+                                                                </label>
+                                                                <input required type="text" class="form-control"
+                                                                       placeholder="Sobrenome" asp-for="EnderecoEntrega.Sobrenome">
+                                                            </div>
+                                                            <div class="form-group required">
+                                                                <label asp-for="EnderecoEntrega.Logradouro">Endereço <sup>*</sup> </label>
+                                                                <input required type="text" class="form-control"
+                                                                       placeholder="Logradouro" asp-for="EnderecoEntrega.Logradouro">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label asp-for="EnderecoEntrega.Bairro">Bairro </label>
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Bairro" asp-for="EnderecoEntrega.Bairro">
+                                                            </div>
+                                                            <div class="form-group required">
+                                                                <label asp-for="EnderecoEntrega.Cidade">Cidade <sup>*</sup> </label>
+                                                                <input required type="text" class="form-control"
+                                                                       placeholder="Cidade" asp-for="EnderecoEntrega.Cidade">
+                                                            </div>
+                                                            <div class="form-group required">
+                                                                <label asp-for="EnderecoEntrega.Estado">Estado <sup>*</sup> </label>
+
+                                                                <select class="form-control" required
+                                                                        aria-required="true"
+                                                                        asp-for="EnderecoEntrega.Estado">
+                                                                    <option value="AC">Acre</option>
+                                                                    <option value="AL">Alagoas</option>
+                                                                    <option value="AP">Amapá</option>
+                                                                    <option value="AM">Amazonas</option>
+                                                                    <option value="BA">Bahia</option>
+                                                                    <option value="CE">Ceará</option>
+                                                                    <option value="DF">Distrito Federal</option>
+                                                                    <option value="ES">Espírito Santo</option>
+                                                                    <option value="GO">Goiás</option>
+                                                                    <option value="MA">Maranhão</option>
+                                                                    <option value="MT">Mato Grosso</option>
+                                                                    <option value="MS">Mato Grosso do Sul</option>
+                                                                    <option value="MG">Minas Gerais</option>
+                                                                    <option value="PA">Pará</option>
+                                                                    <option value="PB">Paraíba</option>
+                                                                    <option value="PR">Paraná</option>
+                                                                    <option value="PE">Pernambuco</option>
+                                                                    <option value="PI">Piauí</option>
+                                                                    <option value="RJ">Rio de Janeiro</option>
+                                                                    <option value="RN">Rio Grande do Norte</option>
+                                                                    <option value="RS">Rio Grande do Sul</option>
+                                                                    <option value="RO">Rondônia</option>
+                                                                    <option value="RR">Roraima</option>
+                                                                    <option value="SC">Santa Catarina</option>
+                                                                    <option value="SP">São Paulo</option>
+                                                                    <option value="SE">Sergipe</option>
+                                                                    <option value="TO">Tocantins</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6">
+                                                            <div class="form-group required">
+                                                                <label asp-for="EnderecoEntrega.Cep">
+                                                                    CEP <sup>*</sup>
+                                                                </label>
+                                                                <input required type="text" class="form-control"
+                                                                       asp-for="EnderecoEntrega.Cep" placeholder="CEP">
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label asp-for="EnderecoEntrega.Referencia">
+                                                                    Referencia
+                                                                </label>
+                                                                <textarea rows="3" cols="26"
+                                                                          name="InputAdditionalInformation"
+                                                                          class="form-control" asp-for="EnderecoEntrega.Referencia"></textarea>
+                                                            </div>
+                                                            <div class="form-group required">
+                                                                <label asp-for="EnderecoEntrega.Telefone">
+                                                                    Contato
+                                                                    <sup>*</sup>
+                                                                </label>
+                                                                <input required type="tel" asp-for="EnderecoEntrega.Telefone"
+                                                                       class="form-control">
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingTwo">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion" href="#Billinginformation"
+                                                       aria-expanded="false" aria-controls="collapseTwo">
+                                                        Endereço de cobrança
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="BillingInformation" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="BillingInformation">
+                                                <div class="panel-body">
+
+                                                    <label class="radio inline">
+                                                        <input id="existingBillingAddress" type="radio"
+                                                               value="true" asp-for="EnderecoPagamentoMesmoEntrega"> Mesme endereço de entrega
+                                                    </label>&nbsp;&nbsp;
+                                                    <label class="radio inline">
+                                                        <input id="newBillingAddress" type="radio" value="option-b2"
+                                                               name="add"> Informar endereço
+                                                    </label>
+                                                    <hr>
+                                                    <div style="clear: both"></div>
+
+                                                    <div class="expandBox collapse" id="newBillingAddressBox">
+
+                                                        <div class="form-group uppercase">
+                                                            <strong>
+                                                                Endereço de cobrança
+                                                            </strong>
+                                                        </div>
+
+                                                        <div class="col-xs-12 col-sm-6">
+                                                            <div class="form-group required">
+                                                                <label asp-for="EnderecoCobranca.Nome">Nome <sup>*</sup> </label>
+                                                                <input required type="text" class="form-control"
+                                                                       placeholder="Nome" asp-for="EnderecoCobranca.Nome">
+                                                            </div>
+                                                            <div class="form-group required">
+                                                                <label asp-for="EnderecoCobranca.Sobrenome">
+                                                                    Last Name <sup>*</sup>
+                                                                </label>
+                                                                <input required type="text" class="form-control"
+                                                                       placeholder="Sobrenome" asp-for="EnderecoCobranca.Sobrenome">
+                                                            </div>
+                                                            <div class="form-group required">
+                                                                <label asp-for="EnderecoCobranca.Logradouro">Endereço <sup>*</sup> </label>
+                                                                <input required type="text" class="form-control"
+                                                                       placeholder="Logradouro" asp-for="EnderecoCobranca.Logradouro">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label asp-for="EnderecoCobranca.Bairro">Bairro </label>
+                                                                <input type="text" class="form-control"
+                                                                       placeholder="Bairro" asp-for="EnderecoCobranca.Bairro">
+                                                            </div>
+                                                            <div class="form-group required">
+                                                                <label asp-for="EnderecoCobranca.Cidade">Cidade <sup>*</sup> </label>
+                                                                <input required type="text" class="form-control"
+                                                                       placeholder="Cidade" asp-for="EnderecoCobranca.Cidade">
+                                                            </div>
+                                                            <div class="form-group required">
+                                                                <label asp-for="EnderecoCobranca.Estado">Estado <sup>*</sup> </label>
+
+                                                                <select class="form-control" required
+                                                                        aria-required="true"
+                                                                        asp-for="EnderecoCobranca.Estado">
+                                                                    <option value="AC">Acre</option>
+                                                                    <option value="AL">Alagoas</option>
+                                                                    <option value="AP">Amapá</option>
+                                                                    <option value="AM">Amazonas</option>
+                                                                    <option value="BA">Bahia</option>
+                                                                    <option value="CE">Ceará</option>
+                                                                    <option value="DF">Distrito Federal</option>
+                                                                    <option value="ES">Espírito Santo</option>
+                                                                    <option value="GO">Goiás</option>
+                                                                    <option value="MA">Maranhão</option>
+                                                                    <option value="MT">Mato Grosso</option>
+                                                                    <option value="MS">Mato Grosso do Sul</option>
+                                                                    <option value="MG">Minas Gerais</option>
+                                                                    <option value="PA">Pará</option>
+                                                                    <option value="PB">Paraíba</option>
+                                                                    <option value="PR">Paraná</option>
+                                                                    <option value="PE">Pernambuco</option>
+                                                                    <option value="PI">Piauí</option>
+                                                                    <option value="RJ">Rio de Janeiro</option>
+                                                                    <option value="RN">Rio Grande do Norte</option>
+                                                                    <option value="RS">Rio Grande do Sul</option>
+                                                                    <option value="RO">Rondônia</option>
+                                                                    <option value="RR">Roraima</option>
+                                                                    <option value="SC">Santa Catarina</option>
+                                                                    <option value="SP">São Paulo</option>
+                                                                    <option value="SE">Sergipe</option>
+                                                                    <option value="TO">Tocantins</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6">
+                                                            <div class="form-group required">
+                                                                <label asp-for="EnderecoCobranca.Cep">
+                                                                    CEP <sup>*</sup>
+                                                                </label>
+                                                                <input required type="text" class="form-control"
+                                                                       asp-for="EnderecoCobranca.Cep" placeholder="CEP">
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion" href="#Deliverymethod" aria-expanded="false"
+                                                       aria-controls="Deliverymethod">
+                                                        Frete
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="Deliverymethod" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="Deliverymethod">
+                                                <div class="panel-body">
+                                                    <div class="w100 row">
+                                                        <div class="form-group col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                                            <table style="width: 100%"
+                                                                   class="table-bordered table tablelook2">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Modalidade</th>
+                                                                        <th>Detalhes</th>
+                                                                        <th>Preço!</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @if (Model.Carrinho.TotalProdutos > 200)
+                                                                    {
+                                                                        <tr>
+                                                                            <td colspan="3" class="text-center"><span class="success">Gratuito</span> </td>
+                                                                        </tr>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        if (Model.Carrinho.Frete != null)
+                                                                        {
+                                                                            <tr>
+                                                                                <td>@Model.Carrinho.Frete.Modalidade</td>
+                                                                                <td>@Model.Carrinho.Frete.Descricao</td>
+                                                                                <td>@Model.Carrinho.Frete.Valor.ToString("C")</td>
+                                                                            </tr>
+                                                                        }
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion" href="#Produtos" aria-expanded="false"
+                                                       aria-controls="Produtos">
+                                                        Produtos
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="Produtos" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="Produtos">
+                                                <div class="panel-body no-padding">
+
+                                                    <table class="cartTable table-responsive" style="width: 100%">
+                                                        <tbody>
+
+                                                            <tr class="CartProduct cartTableHeader">
+                                                                <td style="width: 15%"> Produto</td>
+                                                                <td style="width: 40%">Detalhes</td>
+                                                                <td style="width: 10%">QNT</td>
+                                                                <td style="width: 15%">Total</td>
+                                                            </tr>
+                                                            @foreach (var item in Model.Carrinho.Items)
+                                                            {
+                                                                <tr class="CartProduct">
+                                                                    <td class="CartProductThumb">
+                                                                        <a>
+                                                                            <img src="@item.Imagem" alt="@item.Produto">
+                                                                        </a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="CartDescription">
+                                                                            <h4>@item.Produto</h4>
+
+                                                                            <div class="price"><span> @item.Valor.ToString("C") </span></div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="prices">
+                                                                        @item.Quantidade
+                                                                    </td>
+                                                                    <td class="price">@item.Total.ToString("C")</td>
+                                                                </tr>
+                                                            }
+
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion" href="#Paymentmethod" aria-expanded="false"
+                                                       aria-controls="Paymentmethod">
+                                                        Pagamento
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="Paymentmethod" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="Paymentmethod">
+                                                <div class="panel-body">
+
+
+                                                    <div class="onepage-payment">
+
+                                                        <div class="payment-method">
+                                                            <label class="radio-inline" for="paypal">
+                                                                <input asp-for="TipoPagamento" id="paypal" value="1" type="radio">
+                                                                <img src="@Url.Content("/images/site/payment/paypal-small.png")" height="18"
+                                                                     alt="paypal"> Paypal
+                                                            </label>
+
+                                                        </div>
+
+                                                        <div style="clear: both;"></div>
+
+                                                        <div class="creditCardcollapse payment-method">
+
+                                                            <label class="radio-inline" for="creditCard">
+                                                                <input type="radio" asp-for="TipoPagamento" id="creditCard" value="2">
+                                                                <img style="height: 30px;" class="pull-right"
+                                                                     src="@Url.Content("/images/site/card-payment.jpg")" alt="card-payment">
+                                                            </label>
+
+                                                        </div>
+                                                        <div style="clear: both;"></div>
+
+                                                        <div id="creditCardCollapse" class="creditCard collapse ">
+
+                                                            <div class="paymentInput">
+                                                                <label for="CardNumber">Número *</label>
+                                                                <br>
+                                                                <input id="CardNumber" type="text" asp-for="CartaoCredito.Numero" value="@Model.CartaoCredito.SistemaEmTeste_ObterNumeroCompleto()">
+                                                            </div>
+                                                            <!--paymentInput-->
+                                                            <div class="paymentInput">
+                                                                <label for="CardNumber2">Nome que aparece no Cartão *</label>
+                                                                <br>
+                                                                <input type="text" asp-for="CartaoCredito.Nome" id="CardNumber2">
+                                                            </div>
+                                                            <!--paymentInput-->
+                                                            <div class="paymentInput">
+                                                                <div class="form-group">
+                                                                    <label>Expiration date *</label>
+                                                                    <br>
+
+                                                                    <div class="col-lg-4 col-md-4 col-sm-4 no-margin-left no-padding">
+                                                                        <select required aria-required="true" asp-for="CartaoCredito.Mes" id="mesCartao">
+                                                                            <option value="-1">Mês</option>
+                                                                            <option value="01">01 - January</option>
+                                                                            <option value="02">02 - February</option>
+                                                                            <option value="03">03 - March</option>
+                                                                            <option value="04">04 - April</option>
+                                                                            <option value="05">05 - May</option>
+                                                                            <option value="06">06 - June</option>
+                                                                            <option value="07">07 - July</option>
+                                                                            <option value="08">08 - August</option>
+                                                                            <option value="09">09 - September</option>
+                                                                            <option value="10">10 - October</option>
+                                                                            <option value="11">11 - November</option>
+                                                                            <option value="12">12 - December</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                                                        <select required aria-required="true" asp-for="CartaoCredito.Ano" name="year">
+                                                                            <option value="-1">Ano</option>
+                                                                            <option value="2020">2020</option>
+                                                                            <option value="2021">2021</option>
+                                                                            <option value="2022">2022</option>
+                                                                            <option value="2023">2023</option>
+                                                                            <option value="2024">2024</option>
+                                                                            <option value="2025">2025</option>
+                                                                            <option value="2026">2026</option>
+                                                                            <option value="2027">2027</option>
+                                                                            <option value="2028">2028</option>
+                                                                            <option value="2029">2029</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--paymentInput-->
+
+                                                            <div style="clear: both"></div>
+                                                            <div class="paymentInput clearfix">
+                                                                <label for="VerificationCode">Código verificador *</label>
+                                                                <br>
+                                                                <input type="text" id="VerificationCode"
+                                                                       asp-for="CartaoCredito.CodigoVerificador" value="@Model.CartaoCredito.SistemaEmTeste_ObterCodigoVerificador()" style="width: 90px;">
+                                                                <br>
+                                                            </div>
+                                                            <!--paymentInput-->
+
+                                                        </div>
+                                                        <!--creditCard-->
+
+
+                                                        <div class="form-group clearfix">
+                                                            <br>
+                                                            <label class="checkbox-inline" for="checkboxes-1">
+                                                                <input id="checkboxes-1" value="true"
+                                                                       type="checkbox" asp-for="ConcordouComTermosECondicoes">
+                                                                Eu li e concordo com os Termos e condições
+                                                            </label>
+                                                        </div>
+                                                        <div class="pull-left">
+                                                            <button type="submit" onclick="document.getElementById('formPagamento').submit();" class="btn btn-primary btn-lg ">Pagar &nbsp; <i class="fa fa-arrow-circle-right"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+
+                            </div>
+                            <!--onepage-checkout-->
+
+
+                        </div>
+                        <!--/row end-->
+
+                    </div>
+                    <div class="cartFooter w100">
+                        <div class="box-footer">
+                            <div class="pull-left">
+                                <a class="btn btn-default" href="/">
+                                    <i class="fa fa-arrow-left"></i> &nbsp; Continuar comprando
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--/row end-->
+
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 rightSidebar">
+            <div class="w100 cartMiniTable">
+                <table id="cart-summary" class="std table">
+                    <tbody>
+                        <tr>
+                            <td>Total produtos</td>
+                            <td class="price">@Model.Carrinho.TotalProdutos.ToString("C")</td>
+                        </tr>
+                        <tr style="">
+                            <td>Entrega</td>
+
+                            @if (Model.Carrinho.TotalProdutos > 200)
+                            {
+                                <td class="price">
+                                    <span class="success">Gratuito</span>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="price">
+                                    <span>@Model.Carrinho.Frete?.Valor.ToString("C")</span>
+                                </td>
+                            }
+
+                        </tr>
+                        <tr class="cart-total-price ">
+                            <td>Total (sem impostos.)</td>
+                            <td class="price">@Model.Carrinho.TotalSemImposto.ToString("C")</td>
+                        </tr>
+                        <tr>
+                            <td>Impostos</td>
+                            <td class="price" id="total-tax">@Model.Carrinho.Imposto.ToString("C")</td>
+                        </tr>
+                        @if (Model.Carrinho.Cupom.IsPresent())
+                        {
+                            <tr>
+                                <td> Cupom: @Model.Carrinho.Cupom.Substring(0, 5)</td>
+                                <td class=" site-color" id="total-price">@Model.Carrinho.PercentualDesconto.ToString("P")</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td> Total</td>
+                            <td class=" site-color" id="total-price">@Model.Carrinho.Total.ToString("C")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--  /cartMiniTable-->
+
+        </div>
+        <!--/rightSidebar-->
+
+    </div>
+    <!--/row-->
+
+    <div style="clear:both"></div>
+</div>
+

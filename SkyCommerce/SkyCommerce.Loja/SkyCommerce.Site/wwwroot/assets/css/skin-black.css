@@ -1,0 +1,249 @@
+::selection {
+    color: #ffffff;
+    background: #252424;
+}
+
+::-moz-selection {
+    color: #ffffff;
+    background: #252424;
+}
+
+.site-color {
+    color: #000000 !important;
+}
+
+a:hover,
+a:focus,
+a.link,
+.link {
+    color: #000000;
+}
+
+.search-full,
+.search-input {
+    background: #252424;
+}
+
+.search-close {
+    color: #252424;
+}
+
+.searchInputBox .search-btn {
+    color: #ffffff;
+}
+
+.navbar-tshop {
+    background: #000000;
+}
+
+.btn-primary,
+.product:hover .add-fav:hover,
+.product:hover .add-fav.active {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #b8b8b8;
+    border-color: #b8b8b8;
+    color: #ffffff;
+}
+
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+    background-color: #b8b8b8;
+    border-color: #b8b8b8;
+    color: #ffffff;
+    background: #000000;
+}
+
+.navbar-top {
+    background: #252424;
+}
+
+.navbar-nav > li > a {
+    color: #ffffff;
+}
+
+.nav > li.active,
+.nav > li > a:hover,
+.nav > li > a:focus,
+.nav > li:hover > a {
+    background: #353535;
+}
+
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus,
+.cartMenu:hover > a.dropdown-toggle {
+    background: #353535;
+}
+
+.dropdown-menu {
+    border-top: solid #353535;
+}
+
+.search-box:hover .form-control {
+    background: #000000;
+}
+
+.search-box:hover .btn-nobg {
+    color: #000000;
+}
+
+.mCS-dark-2 > .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+    background-color: #000000 !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#80000000, endColorstr=#80000000) !important;
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#80000000, endColorstr=#80000000) !important;
+}
+
+.action-control a:hover,
+.action-control a.active {
+    color: #ffffff;
+    background: #353535;
+}
+
+.product:hover,
+.featuredImgLook2 .inner:hover {
+    border: 1px solid #000000;
+}
+
+.subCategoryList .thumbnail:hover {
+    border: 1px solid #000000;
+}
+
+#pager a.cycle-pager-active {
+    background-color: #252424 !important;
+    background-color: rgba(37, 36, 36, 0.7) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#b3252424, endColorstr=#b3252424) !important;
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#b3252424, endColorstr=#b3252424) !important;
+}
+
+.pager2 a {
+    border: 1px solid #000000;
+}
+
+.pager2 a.selected {
+    background: #000000;
+}
+
+.btn-site,
+.newsLatterBox .btn {
+    background: #000000;
+}
+
+.btn-discover:hover,
+.btn-site:hover,
+.newsLatterBox .btn:hover {
+    background: #353535;
+}
+
+.full {
+    width: 100%;
+}
+
+.footer a:hover {
+    color: #000000;
+}
+
+.modal-header {
+    background: #000000;
+}
+
+.form-control:focus {
+    border-color: #000000;
+}
+
+.new-product {
+    background-color: #000000 !important;
+    background-color: rgba(0, 0, 0, 0.95) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f2000000, endColorstr=#f2000000) !important;
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f2000000, endColorstr=#f2000000) !important;
+}
+
+.nav.tree > li.active,
+.nav.tree > li > a:hover,
+.nav.tree > li > a:focus,
+.nav.tree > li:hover > a {
+    background: none;
+    color: #2a2a2a;
+}
+
+.nav.tree .open-tree > a,
+.nav.tree .open-tree > a:hover,
+.nav.tree .open-tree > a:focus {
+    background: none;
+    font-weight: bold;
+    color: #2a2a2a;
+}
+
+.panel-default > .panel-heading {
+    border-top: 4px solid #000000;
+}
+
+.nav-tabs {
+    border-bottom: 3px solid #bfc9ca;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li:hover > a {
+    background: #bfc9ca;
+}
+
+.socialIcon a:hover {
+    background: #000000;
+}
+
+.cart-actions button,
+.cart-actions .wishlist {
+    background: none repeat scroll 0 0 #000000;
+    border: 2px solid #353535;
+}
+
+.cart-actions button:hover {
+    background: #ffffff;
+    color: #2a2a2a;
+    border: solid 2px #000000;
+}
+
+.sp-thumbs a:hover,
+.sp-thumbs a:active,
+.sp-current,
+sp-current:visited {
+    border: 2px solid #000000 !important;
+}
+
+.promo-1 {
+    background: none repeat scroll 0 0 #353535;
+}
+
+#pager2 span.cycle-pager-active {
+    background: #000000 !important;
+}
+
+#pager2 span {
+    border: 2px solid #000000;
+}
+
+.orderStep li.active a {
+    background: #000000;
+}
+
+.orderStep li.active a:after {
+    border-top-color: #000000 !important;
+}
+
+.orderStep li a {
+    background: #b8b8b8;
+}

@@ -1,0 +1,199 @@
+﻿@model ListarProdutosViewModel
+@{
+    ViewData["Title"] = "Bem vindo";
+}
+@section Scripts {
+
+    <script src="@Url.Content("assets/js/idangerous.swiper-2.1.min.js")"></script>
+    <script>
+        var mySwiper = new Swiper('.swiper-container',
+            {
+                pagination: '.box-pagination',
+                keyboardControl: true,
+                paginationClickable: true,
+                slidesPerView: 'auto',
+                autoResize: true,
+                resizeReInit: true
+            });
+
+        $('.prevControl').on('click',
+            function (e) {
+                e.preventDefault();
+                mySwiper.swipePrev();
+            });
+        $('.nextControl').on('click', function (e) {
+            e.preventDefault();
+            mySwiper.swipeNext();
+        })
+    </script>
+
+    <!-- include jqueryCycle plugin -->
+    <script src="@Url.Content("assets/js/jquery.cycle2.min.js")"></script>
+
+    <!-- include easing plugin -->
+    <script src="@Url.Content("assets/js/jquery.easing.1.3.js")"></script>
+}
+
+<div class="container main-container headerOffset globalPaddingBottom">
+
+    <!-- Main component call to action -->
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div class="home-intro">
+                <h2>Um e-commerce como nunca visto antes <span>Experiemente</span> - roupas, IdentityServer4 & mais </h2>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <div style="clear:both"></div>
+    <div class="row">
+        <div class="col-sm-10 show-case-wrapper center-block relative">
+            <div id="productShowCase" class="owl-carousel owl-theme">
+                @foreach (var produto in Model.Vitrine)
+                {
+                    <partial name="Produtos/_Vitrine" model="produto" />
+                }
+            </div>
+            <!--/#productShowCase -->
+
+            <div style="clear:both;"></div>
+            <a id="ps-next" class="ps-nav"> <i class="fa fa-angle-right"></i> </a> <a id="ps-prev" class="ps-nav">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        </div>
+        <!--/.show-case-wrapper -->
+    </div>
+
+    <div class="row featuredPostContainer ">
+        <div class="featured-category"></div>
+        <div class="col-lg-12">
+            <h3 class="boxes-title-1"><span>NOVOS</span></h3>
+        </div>
+        <div style="clear:both;"></div>
+        <div id="productslider" class="owl-carousel owl-theme">
+            @foreach (var produto in Model.NovoProdutos)
+            {
+                <div class="item">
+                    <partial name="Produtos/_Produto" model="produto" />
+                </div>
+            }
+
+        </div>
+        <!--/.productslider-->
+
+    </div>
+    <!--/.featuredPostContainer-->
+</div>
+<!-- /main container -->
+
+<div class="w100 sectionCategory">
+    <div class="container">
+        <div class="sectionCategoryIntro text-center">
+            <h1>Melhores categorias</h1>
+
+            <p>
+                As categorias mais pesquisadas! Veja agora o que há de melhor na nossa loja!
+            </p>
+        </div>
+        <div class="row subCategoryList clearfix">
+            @foreach (var categoria in Model.Categorias)
+            {
+                <partial model="categoria" name="Produtos/_Categoria" />
+            }
+
+        </div>
+        <!--/.row-->
+
+    </div>
+    <!--/.container-->
+</div>
+<!--/.sectionCategory-->
+
+<div class="container main-container">
+
+    <!-- Main component call to action -->
+
+    <div class="morePost row featuredPostContainer style2 globalPaddingTop ">
+        <div class="col-lg-12">
+            <h3 class="boxes-title-1"><span>EM DESTAQUE</span></h3>
+        </div>
+        <div class="container">
+            <div class="row xsResponse">
+                @foreach (var produto in Model.ProdutosEmDestaque)
+                {
+                    <div class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                        <partial model="produto" name="Produtos/_Produto" />
+                    </div>
+                }
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+                <div class="load-more-block text-center">
+                    <a class="btn btn-thin" href="#">
+                        <i class="fa fa-plus-sign">+</i> load more products
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--/.container-->
+    </div>
+    <!--/.featuredPostContainer-->
+
+    <hr class="no-margin-top">
+
+    <div class="width100 section-block">
+        <h3 class="section-title">
+            <span> BRAND</span> <a id="nextBrand" class="link pull-right carousel-nav">
+                <i class="fa fa-angle-right"></i>
+            </a> <a id="prevBrand" class="link pull-right carousel-nav">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        </h3>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="no-margin brand-carousel owl-carousel owl-theme">
+                    @foreach (var marca in Model.Marcas)
+                    {
+                        <li><a asp-controller="Catalogo" asp-action="Marca" asp-route-marca="@marca.NomeUnico"><img src="@marca.Imagem" alt="@marca.Nome"></a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <!--/.row-->
+    </div>
+    <!--/.section-block-->
+
+</div>
+<!--main-container-->
+
+<div class="parallax-section parallax-image-2">
+    <div class="w100 parallax-section-overley">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="parallax-content clearfix">
+                        <h1 class="xlarge"> ENTREGAMOS EM TODO BRASIL </h1>
+                        <h5 class="parallaxSubtitle"> Garantia de qualidade ou seu dinheiro de volta! </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/.parallax-section-->
+<!-- Product Details Modal  -->
+<!-- Modal -->
+<div class="modal fade" id="productSetailsModalAjax" tabindex="-1" role="dialog"
+     aria-labelledby="productSetailsModalAjaxLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- End Modal -->

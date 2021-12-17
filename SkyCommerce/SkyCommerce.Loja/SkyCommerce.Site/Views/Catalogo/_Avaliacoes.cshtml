@@ -1,0 +1,46 @@
+﻿@using Humanizer
+@model SkyCommerce.Models.Avaliacao
+<div class="row review-item">
+    <div class="col-lg-3 col-sm-3  left">
+        <div class="review-item-user">
+            <div class="review-item-user-profile">
+                <img class="img-circle" alt="" src="@Model.Imagem">
+            </div>
+            <div class="user-name">
+                <p>@Model.Usuario </p>
+                <small>@DateTime.Now.Subtract(Model.DataAvaliacao).Humanize()</small>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-lg-9  col-sm-9 right">
+
+
+        <div class="rating commentRating">
+            <p>
+                @for (int i = 0; i < Model.Nota; i++)
+                {
+                    <span><i class="fa fa-star"></i></span>
+                }
+                @for (var i = Model.Nota; i < 5; i++)
+                {
+                    <span><i class="fa fa-star-o"></i></span>
+                }
+
+                <span class="ratingInfo">
+                    <span> / </span> <a data-target="#modal-review" data-toggle="modal"> @Model.Nota.ToString("N") </a>
+                </span>
+            </p>
+        </div>
+        <h5 class="reviewUserTitle"><strong>@Model.Titulo</strong></h5>
+
+        <p class="commentText">
+            @Model.Comentario
+        </p>
+
+
+    </div>
+
+
+</div>

@@ -1,0 +1,59 @@
+﻿@model SkyCommerce.Models.Carrinho
+@{
+    ViewData["Title"] = "_Carrinho";
+}
+<!-- this part is duplicate from cartMenu  keep it for mobile -->
+<div class="navbar-cart  collapse">
+    <div class="cartMenu  col-lg-4 col-xs-12 col-md-4 ">
+        <div class="w100 miniCartTable scroll-pane">
+            <table>
+                <tbody>
+                @if (Model != null && Model.Items.Any())
+                {
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr class="miniCartProduct">
+                            <td style="width: 20%" class="miniCartProductThumb">
+                                <div>
+                                    <a asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@item.NomeUnico">
+                                        <img src="@item.Imagem" alt="img">
+                                    </a>
+                                </div>
+                            </td>
+                            <td style="width: 40%">
+                                <div class="miniCartDescription">
+                                    <h4><a asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@item.NomeUnico"> @item.Produto </a></h4>
+
+                                    <div class="price"><span> @item.Valor.ToString("C") </span></div>
+                                </div>
+                            </td>
+                            <td style="width: 10%" class="miniCartQuantity"><a> X @item.Quantidade </a></td>
+                            <td style="width: 15%" class="miniCartSubtotal"><span> @item.Total.ToString("C") </span></td>
+                            <td style="width: 5%" class="delete">
+                                <form asp-controller="Carrinho" asp-action="Remover">
+                                    <input type="hidden" name="NomeUnico" value="@item.NomeUnico"/>
+                                    <button class="btn btn-sm btn-danger" type="submit"> x </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+        <!--/.miniCartTable-->
+
+        <div class="miniCartFooter  miniCartFooterInMobile text-right">
+            <h3 class="text-right subtotal"> Subtotal: $210 </h3>
+            <a class="btn btn-sm btn-danger" href="cart.html">
+                <i class="fa fa-shopping-cart"> </i> VIEW CART
+            </a>
+            <a href="checkout-0.html"
+               class="btn btn-sm btn-primary"> CHECKOUT </a>
+        </div>
+        <!--/.miniCartFooter-->
+
+    </div>
+    <!--/.cartMenu-->
+</div>
+<!--/.navbar-cart-->

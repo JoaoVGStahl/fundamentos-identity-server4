@@ -1,0 +1,77 @@
+﻿@model SkyCommerce.Models.Carrinho
+@{
+    ViewData["Title"] = "_Carrinho";
+}
+
+<div class="navbar-collapse collapse">
+    <div class="nav navbar-nav navbar-right hidden-xs">
+        <div class="dropdown  cartMenu ">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-shopping-cart"> </i> <span class="cartRespons"> Carrinho (@Model?.TotalProdutos.ToString("C")) </span> <b class="caret"> </b>
+            </a>
+
+            <div class="dropdown-menu col-lg-4 col-xs-12 col-md-4 ">
+                <div class="w100 miniCartTable scroll-pane">
+                    @if (Model != null && Model.Items.Any())
+                    {
+                        <table>
+                            <tbody>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <tr class="miniCartProduct">
+                                        <td style="width: 20%" class="miniCartProductThumb">
+                                            <div>
+                                                <a asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@item.NomeUnico">
+                                                    <img src="@item.Imagem" alt="@item.Produto">
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td style="width: 40%">
+                                            <div class="miniCartDescription">
+                                                <h4><a asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@item.NomeUnico"> @item.Produto </a></h4>
+
+                                                <div class="price"><span> @item.Valor.ToString("C") </span></div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 10%" class="miniCartQuantity"><a> X @item.Quantidade </a></td>
+                                        <td style="width: 15%" class="miniCartSubtotal"><span> @item.Total.ToString("C") </span></td>
+                                        <td style="width: 5%" class="delete">
+                                            <form asp-controller="Carrinho" asp-action="Remover">
+                                                <input type="hidden" name="NomeUnico" value="@item.NomeUnico" />
+                                                <button class="btn btn-sm btn-danger" type="submit"> x </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <table>
+                            <tbody>
+                                <tr class="text-center"><td>Carrinho vazio</td></tr>
+                            </tbody>
+                        </table>
+                    }
+
+                </div>
+                <!--/.miniCartTable-->
+                @if (Model != null && Model.Items.Any())
+                {
+                    <div class="miniCartFooter text-right">
+                        <h3 class="text-right subtotal"> Subtotal: @Model?.TotalProdutos.ToString("C") </h3>
+                        <a class="btn btn-sm btn-danger" asp-controller="Carrinho" asp-action="Index">
+                            <i class="fa fa-shopping-cart"> </i> CARRINHO
+                        </a><a class="btn btn-sm btn-primary" asp-action="Index" asp-controller="Checkout"> CHECKOUT </a>
+                    </div>
+                    <!--/.miniCartFooter-->
+                }
+            </div>
+            <!--/.dropdown-menu-->
+        </div> <!--/.cartMenu-->
+    </div>
+    <!--/.navbar-nav hidden-xs-->
+</div>
+<!--/.nav-collapse -->

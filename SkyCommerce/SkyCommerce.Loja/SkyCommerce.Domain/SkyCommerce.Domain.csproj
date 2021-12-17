@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>SkyCommerce</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.IQueryable.Extensions" Version="3.1.8" />
+    <PackageReference Include="Bogus" Version="31.0.3" />
+    <PackageReference Include="Bogus.Tools.Analyzer" Version="31.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="GeoCoordinate" Version="2.0.1" />
+    <PackageReference Include="Humanizer.Core.pt" Version="2.8.26" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.8" />
+    <PackageReference Include="Refit" Version="5.2.1" />
+  </ItemGroup>
+
+</Project>

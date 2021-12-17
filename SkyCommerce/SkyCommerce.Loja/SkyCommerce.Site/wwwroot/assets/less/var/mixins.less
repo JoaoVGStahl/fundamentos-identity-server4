@@ -1,0 +1,103 @@
+/* Mixin */
+
+// Border Radius
+.border-radius (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+
+.border-radius-custom (@topleft: 5px, @topright: 5px, @bottomleft: 5px, @bottomright: 5px) {
+  -webkit-border-radius: @topleft @topright @bottomright @bottomleft;
+  -moz-border-radius: @topleft @topright @bottomright @bottomleft;
+  border-radius: @topleft @topright @bottomright @bottomleft;
+}
+
+
+// BOX SHADOW
+.box-shadow (@x: 0px, @y: 3px, @blur: 5px, @alpha: 0.5) {
+  -webkit-box-shadow: @x @y @blur rgba(0, 0, 0, @alpha);
+  -moz-box-shadow: @x @y @blur rgba(0, 0, 0, @alpha);
+  box-shadow: @x @y @blur rgba(0, 0, 0, @alpha);
+}
+
+/* Implementation */
+// .box-shadow(5px, 5px, 6px, 0.3);
+
+
+// TRANSITION
+.transition (@prop: all, @time: 1s, @ease: linear, @delay: 0s) {
+  -webkit-transition: @prop @time @ease @delay;
+  -moz-transition: @prop @time @ease @delay;
+  -o-transition: @prop @time @ease @delay;
+  -ms-transition: @prop @time @ease @delay;
+  transition: @prop @time @ease @delay;
+}
+
+/* Implementation */
+.transition-all {
+  .transition(all, 0.25s, linear);
+}
+
+// TRANSFORM
+.transform (@rotate: 90deg, @scale: 1, @skew: 1deg, @translate: 10px) {
+  -webkit-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+  -moz-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+  -o-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+  -ms-transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+  transform: rotate(@rotate) scale(@scale) skew(@skew) translate(@translate);
+}
+
+/* Implementation */
+//  .transform(5deg, 0.5, 1deg, 0px);
+
+
+// GRADIENT
+.gradient (@origin: left, @start: #ffffff, @stop: #000000) {
+  background-color: @start;
+  background-image: -webkit-linear-gradient(@origin, @start, @stop);
+  background-image: -moz-linear-gradient(@origin, @start, @stop);
+  background-image: -o-linear-gradient(@origin, @start, @stop);
+  background-image: -ms-linear-gradient(@origin, @start, @stop);
+  background-image: linear-gradient(@origin, @start, @stop);
+}
+
+// GRADIENT start with 0
+.gradient0 (@origin: left, @start: #ffffff, @stop: #000000) {
+  background-color: transparent;
+  background-image: -webkit-linear-gradient(@origin, @start, @stop);
+  background-image: -moz-linear-gradient(@origin, @start, @stop);
+  background-image: -o-linear-gradient(@origin, @start, @stop);
+  background-image: -ms-linear-gradient(@origin, @start, @stop);
+  background-image: linear-gradient(@origin, @start, @stop);
+}
+
+/* gradient Implementation */
+//.gradient(left, #663333, #333333);
+
+
+// QUICK GRADIENT
+.quick-gradient (@origin: left, @alpha: 0.2) {
+  background-image: -webkit-linear-gradient(@origin, rgba(0, 0, 0, 0.0), rgba(0, 0, 0,@alpha));
+  background-image: -moz-linear-gradient(@origin, rgba(0, 0, 0, 0.0), rgba(0, 0, 0,@alpha));
+  background-image: -o-linear-gradient(@origin, rgba(0, 0, 0, 0.0), rgba(0, 0, 0,@alpha));
+  background-image: -ms-linear-gradient(@origin, rgba(0, 0, 0, 0.0), rgba(0, 0, 0,@alpha));
+  background-image: linear-gradient(@origin, rgba(0, 0, 0, 0.0), rgba(0, 0, 0,@alpha));
+}
+
+/* Implementation */
+//.quick-gradient(top, 0.2);
+
+
+// Background RGBA
+.crossbrowseropacity (@color,@alpha) {
+  @rgba: rgba(red(@color), green(@color), blue(@color),@alpha);
+  @argb: argb(@rgba);
+  background-color: @color;
+  background-color: @rgba;
+  filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{argb}, endColorstr=@{argb})";
+  -ms-filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{argb}, endColorstr=@{argb})";
+}
+/* Implementation */
+//.crossbrowseropacity (red, .2)

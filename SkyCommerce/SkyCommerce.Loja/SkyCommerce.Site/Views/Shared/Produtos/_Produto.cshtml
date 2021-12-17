@@ -1,0 +1,54 @@
+﻿@model SkyCommerce.Models.Produto
+<div class="product">
+    <a class="add-fav tooltipHere" data-toggle="tooltip"
+       data-original-title="Adicionar aos favoritos" data-placement="left">
+        <i class="glyphicon glyphicon-heart"></i>
+    </a>
+
+    <div class="image">
+        <div class="quickview">
+            <a data-toggle="modal" class="btn btn-xs btn-quickview" asp-controller="Catalogo" asp-action="PreVisualizar" asp-route-produto="@Model.NomeUnico"
+               data-target="#productSetailsModalAjax">Visualizar </a>
+        </div>
+        <a asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@Model.NomeUnico">
+            <img src="@Model.Imagem" alt="img" class="img-responsive">
+        </a>
+
+        <div class="promotion">
+            @if (Model.Novo)
+            {
+                <span class="new-product"> NOVO</span>
+            }
+            @if (Model.Valor * 1.15m < Model.ValorAntigo)
+            {
+                <span class="discount">
+                    @Model.TextoPercentualDesconto()
+
+                </span>
+            }
+        </div>
+
+    </div>
+    <div class="description">
+        <h4><a asp-action="Detalhes" asp-controller="Catalogo" asp-route-produto="@Model.NomeUnico">@Model.Nome </a></h4>
+
+        <p>@Model.Descricao </p>
+        @foreach (var categoia in Model.Categorias)
+        {
+            <span class="size"><a asp-controller="Categorias" asp-action="Index" asp-route-categoria="@categoia.ToLower()">@categoia</a>&nbsp;></span>
+        }
+
+    </div>
+    <div class="price"><span>@Model.Valor.ToString("C")</span></div>
+    <div class="action-control">
+        <form asp-controller="Carrinho" asp-action="Adicionar">
+            <input type="hidden" name="NomeUnico" value="@Model.NomeUnico" />
+            <button class="btn btn-primary" type="submit">
+                <span class="add2cart">
+                    <i class="glyphicon glyphicon-shopping-cart"> </i> Adicionar ao carrinho
+                </span>
+            </button>
+        </form>
+    </div>
+</div>
+<!--/.produto-->

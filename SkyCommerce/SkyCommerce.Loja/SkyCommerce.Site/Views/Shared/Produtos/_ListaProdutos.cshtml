@@ -1,0 +1,315 @@
+﻿@using SkyCommerce.Extensions
+@model SkyCommerce.Site.Models.ProdutosPrincipalViewModel
+@{
+    ViewData["Title"] = "Bem vindo";
+}
+@section Styles
+{
+    <link href="@Url.Content("/assets/css/category-2.css")" rel="stylesheet">
+}
+@section Scripts
+{
+    <script src="@Url.Content("/assets/js/hideMaxListItem-min.js")"></script>
+    <script>
+        $(document).ready(function () {
+            $('ul.long-list').hideMaxListItems({
+                'max': 6,
+                'speed': 500,
+                'moreText': 'VIEW MORE ([COUNT])',
+                'lessText': 'VIEW LESS',
+                'moreHTML': '<p class="maxlist-more"><a href="#">MORE OF THEM</a></p>'
+            });
+        });
+
+
+    </script>
+
+
+    <!-- scrollme || onscroll parallax effect for category page  -->
+    <script src="@Url.Content("/assets/js/jquery.scrollme.min.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var isMobile = function () {
+                //console.log("Navigator: " + navigator.userAgent);
+                return /(iphone|ipod|ipad|android|blackberry|windows ce|palm|symbian)/i.test(navigator.userAgent);
+            };
+
+            if (isMobile()) {
+                // For  mobile , ipad, tab
+                $('.animateme').removeClass('animateme');
+                $('.category-wrapper').addClass('ismobile');
+                $('.main-container-wrapper').addClass('ismobile');
+                $('#category-intro').addClass('ismobile');
+
+            } else {
+            }
+
+        }); // end
+
+
+    </script>
+
+}
+@{
+    var customClass = Model.ImagemCapa.IsPresent() ? "category-wrapper" : "container main-container headerOffset globalPaddingBottom";
+}
+
+<section class="@customClass">
+    @if (Model.ImagemCapa.IsPresent())
+    {
+        <section id="category-intro" class="section-intro scrollme parallaxOffset">
+            <div class="cat-intro animateme" data-when="exit"
+                 data-from="0"
+                 data-to="1"
+                 data-opacity="0"
+                 data-translatey="-220"
+                 data-rotatez="0"
+                 data-crop="true">
+
+                <div class="cat-intro-text">
+                    <div class="display-table hw100">
+                        <div class="display-table-cell hw100">
+                            <div class="box-text-cell-inner white animateme" data-when="exit"
+                                 data-from="0"
+                                 data-to="1"
+                                 data-opacity="0"
+                                 data-translatey="-260"
+                                 data-rotatez="0"
+                                 data-crop="true">
+
+                                <h1>@Model.Titulo</h1>
+
+                                <p>@Model.SubTitulo </p>
+
+                                <p>
+                                    <a style="color: #fff" href="#main-container-wrapper" class="scrollto">
+                                        <i class="fa fa-2x fa-angle-down"></i>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/.cat-intro-text-->
+
+                <img src="@Model.ImagemCapa" alt="img" class=" cat-intro-banner">
+            </div>
+        </section>
+    }
+
+
+    <section class="main-container-wrapper clearfix" id="main-container-wrapper">
+        <div class="container main-container">
+
+            <!-- Main component call to action -->
+
+            <div class="row">
+
+                <div class="catTopBar clearfix">
+                    <div class="catTopBarInner clearfix">
+                        <div class="col-lg-3 col-md-3 col-sm-12">
+                            <div class="f-left hidden-xs">
+                                <h4 class="filterToggle">
+                                    <i class="fa fa-bars"></i> <strong>Filter</strong> <span> &nbsp; </span>
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-sm-12">
+                            <div class="f-right">
+                                <div class="w100  clearfix center-xs-inner">
+                                    <p class="pull-left shrtByP center-xs">
+                                        <span>Ordernar :</span> <a class="active">NEW</a> | <a>POPULAR</a>| <a>PRÌCE</a>
+                                    </p>
+
+
+                                    <div class="pull-right hidden-xs">
+                                        <p class="pull-right change-view-flat">
+                                            <span>View By :</span>
+                                            <a href="#"
+                                               title="Grid"
+                                               class="grid-view">
+                                                <i class="fa fa-th-large"></i>
+                                            </a> |
+                                            <a href="#" title="List"
+                                               class="list-view ">
+                                                <i class="fa fa-th-list"></i>
+                                            </a>
+                                        </p>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--left column-->
+
+                <div class="catColumnWrapper">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-sm-12 filterColumn">
+                        <div class="panel-group" id="accordion">
+                            <!--Category-->
+                            <div class="panel panel-flat">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapseCategory" class="">
+                                            <span class="pull-right hasMinus"> <i class="i-minus"></i></span> Categorias
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseCategory" class="panel-collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav nav-list long-list">
+                                            @if (Model.PesquisaAtual.Categoria.IsPresent())
+                                            {
+                                                <li>
+                                                    <a asp-action="@Model.Action" asp-controller="@Model.Controller"
+                                                       asp-route-query="@Model.PesquisaAtual.Query"
+                                                       asp-route-marca="@Model.PesquisaAtual.Marca"
+                                                       asp-route-categoria=""><i class="fa fa-times"></i>&nbsp;<b>@Model.Categorias.First(f => f.NomeUnico == Model.PesquisaAtual.Categoria).Nome</b></a>
+                                                </li>
+                                            }
+
+                                            @foreach (var categoria in Model.Categorias)
+                                            {
+                                                <li>
+                                                    <a asp-action="@Model.Action" asp-controller="@Model.Controller"
+                                                       asp-route-query="@Model.PesquisaAtual.Query"
+                                                       asp-route-marca="@Model.PesquisaAtual.Marca"
+                                                       asp-route-categoria="@categoria.NomeUnico">@categoria.Nome</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/Category menu end-->
+
+                            <div class="panel panel-flat">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapseBrand" class="">
+                                            Marca <span class="pull-right hasMinus"> <i class="i-minus"></i></span>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseBrand" class="panel-collapse collapse in">
+                                    <div class="panel-body ">
+                                        <ul class="list-unstyled long-list">
+                                            @if (Model.PesquisaAtual.Marca.IsPresent())
+                                            {
+                                                <li>
+                                                    <div class="block-element">
+                                                        <a asp-action="@Model.Action" asp-controller="@Model.Controller"
+                                                           asp-route-query="@Model.PesquisaAtual.Query"
+                                                           asp-route-categoria="@Model.PesquisaAtual.Categoria"
+                                                           asp-route-marca=""><i class="fa fa-times"></i>&nbsp;<b>@Model.Marcas.First(f => f.NomeUnico == Model.PesquisaAtual.Marca).Nome</b></a>
+                                                    </div>
+                                                </li>
+                                            }
+                                            @foreach (var marca in Model.Marcas)
+                                            {
+                                                <li>
+                                                    <div class="block-element">
+                                                        <a asp-action="@Model.Action" asp-controller="@Model.Controller"
+                                                           asp-route-query="@Model.PesquisaAtual.Query"
+                                                           asp-route-categoria="@Model.PesquisaAtual.Categoria"
+                                                           asp-route-marca="@marca.NomeUnico">@marca.Nome</a>
+                                                    </div>
+                                                </li>
+
+
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/brand panel end-->
+
+                        </div>
+                    </div>
+
+                    <!--right column-->
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-sm-12 categoryColumn">
+
+
+                        <!--/.productFilter-->
+                        <div class="row  categoryProduct equalHeightCategoryProduct  xsResponse clearfix">
+
+                            @if (Model.Produtos.PossuiItens)
+                            {
+                                foreach (var produto in Model.Produtos.Collection)
+                                {
+                                    <div class="item col-sm-4 col-lg-4 col-md-4 col-xs-6">
+                                        <partial name="Produtos/_Produto" model="produto"></partial>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <h3>Nenhum item localizado</h3>
+                            }
+                        </div>
+                        <!--/.categoryProduct || product content end-->
+                        @if (Model.PesquisaAtual != null)
+                        {
+                            <div class="w100 categoryFooter">
+                                <div class="pagination pull-left no-margin-top">
+                                    <ul class="pagination no-margin-top">
+                                        @for (int i = 0; i < (Model.Produtos.Total / 6); i++)
+                                        {
+
+
+                                            @if (Model.PesquisaAtual.Pagina(i) == Model.PesquisaAtual.Offset)
+                                            {
+                                                <li class="active">
+                                                    <a asp-action="@Model.Action" asp-controller="@Model.Controller"
+                                                       asp-route-query="@Model.PesquisaAtual.Query"
+                                                       asp-route-offset="@Model.PesquisaAtual.Pagina(i)">@(i + 1)</a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a asp-action="@Model.Action" asp-controller="@Model.Controller"
+                                                       asp-route-query="@Model.PesquisaAtual.Query"
+                                                       asp-route-categoria="@Model.PesquisaAtual.Categoria"
+                                                       asp-route-marca="@Model.PesquisaAtual.Marca"
+                                                       asp-route-offset="@Model.PesquisaAtual.Pagina(i)">@(i + 1)</a>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                        <!--/.categoryFooter-->
+                    </div>
+                    <!--/right column end-->
+                </div>
+                <!--/.catColumnWrapper-->
+
+
+            </div>
+            <!-- /.row  -->
+        </div>
+        <!-- /main container -->
+    </section>
+    <!-- /category-wrapper -->
+</section>
+<!-- Product Details Modal  -->
+<!-- Modal -->
+<div class="modal fade" id="productSetailsModalAjax" tabindex="-1" role="dialog"
+     aria-labelledby="productSetailsModalAjaxLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<!-- End Modal -->

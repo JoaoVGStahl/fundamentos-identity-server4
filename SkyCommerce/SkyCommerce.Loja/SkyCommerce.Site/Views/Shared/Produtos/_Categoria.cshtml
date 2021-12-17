@@ -1,0 +1,9 @@
+﻿@model SkyCommerce.Models.Categoria
+
+<div class="col-md-2 col-sm-3 col-xs-4  col-xs-mini-6  text-center ">
+    <div class="thumbnail">
+        <a class="subCategoryThumb" asp-controller="Categorias" asp-action="Index" asp-route-categoria="@Model.NomeUnico">
+            <img src="@Model.Imagem" class="img-rounded " alt="img">
+        </a> <a class="subCategoryTitle"><span> @Model.Nome </span></a>
+    </div>
+</div>

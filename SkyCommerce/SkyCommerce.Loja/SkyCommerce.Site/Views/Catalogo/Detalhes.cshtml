@@ -1,0 +1,426 @@
+﻿@model ProdutoDetalhesViewModel
+@{
+    ViewData["Title"] = Model.Produto.Nome;
+}
+@{
+    string currentUrl = Context.Request.Scheme + "://" + Context.Request.Host + @Url.Action("Detalhes", "Catalogo", new { produto = Model.Produto.NomeUnico });
+    string enc = System.Net.WebUtility.UrlEncode(currentUrl);
+    string text = System.Net.WebUtility.UrlEncode(Model.Produto.Nome);
+}
+@section Styles
+{
+
+    <link href="@Url.Content("/assets/css/product-details-5.css")" rel="stylesheet">
+}
+@section Scripts
+{
+    <!-- jquery-migrate only for product details -->
+    <script src="https://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+    <!-- include jqueryCycle plugin -->
+    <script src="@Url.Content("/assets/js/jquery.cycle2.min.js")"></script>
+    <!-- include easing plugin -->
+    <script src="@Url.Content("/assets/js/jquery.easing.1.3.js")"></script>
+
+    <!-- include mCustomScrollbar plugin //Custom Scrollbar  -->
+    <script type="text/javascript" src="@Url.Content("/assets/js/jquery.mCustomScrollbar.js")"></script>
+
+    <!-- include smoothproducts // product zoom plugin  -->
+    <script type="text/javascript" src="@Url.Content("/assets/plugins/smoothproducts-master/js/smoothproducts.min.js")"></script>
+
+    <script type="text/javascript">
+        /* wait for images to load */
+        $(window).load(function () {
+            $('.sp-wrap').smoothproducts();
+        });
+    </script>
+
+
+    <script src="@Url.Content("/assets/plugins/rating/bootstrap-rating.min.js")"></script>
+    <script>
+        $(function () {
+
+            $('.rating-tooltip-manual').rating({
+                extendSymbol: function () {
+                    var title;
+                    $(this).tooltip({
+                        container: 'body',
+                        placement: 'bottom',
+                        trigger: 'manual',
+                        title: function () {
+                            return title;
+                        }
+                    });
+                    $(this).on('rating.rateenter', function (e, rate) {
+                        title = rate;
+                        $(this).tooltip('show');
+                    })
+                        .on('rating.rateleave', function () {
+                            $(this).tooltip('hide');
+                        });
+                }
+            });
+
+        });
+    </script>
+
+}
+<div class="clear"></div>
+<div class="container main-container headerOffset">
+    <div class="row">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                @foreach (var categoria in Model.Produto.Categorias)
+                {
+                    <li><a asp-controller="Categorias" asp-action="Index" asp-route-categoria="@categoria">@categoria</a></li>
+                }
+                <li class="active">@Model.Produto.Nome</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row transitionfx">
+        <!-- left column -->
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <!-- product Image and Zoom -->
+            <div class="main-image sp-wrap col-lg-12 no-padding style2 style2look2">
+                <a href="@Model.Produto.Imagem">
+                    <img src="@Model.Produto.Imagem" style="width: 100px;" class="img-responsive" alt="img">
+                </a>
+                @foreach (var image in Model.Produto.Imagens)
+                {
+                    <a href="@image">
+                        <img src="@image" style="width: 100px;" class="img-responsive" alt="img">
+                    </a>
+                }
+            </div>
+        </div>
+        <!--/ left column end -->
+        <!-- right column -->
+        <div class="col-lg-6 col-md-6 col-sm-5">
+
+            <h1 class="product-title"> @Model.Produto.Nome</h1>
+
+            <h3 class="product-code">Codigo : @Model.Produto.Codigo</h3>
+
+            <div class="rating">
+                <p>
+                    @for (int i = 0; i < Math.Round(Model.NotaMedia()); i++)
+                    {
+                        <span><i class="fa fa-star"></i></span>
+                    }
+                    @for (var i = Math.Round(Model.NotaMedia()); i < 5; i++)
+                    {
+                        <span><i class="fa fa-star-o"></i></span>
+                    }
+                    <span class="ratingInfo">
+                        <span> / </span> <a data-toggle="modal" data-target="#modal-review"> Comente</a>
+                    </span>
+                </p>
+            </div>
+            <div class="product-price">
+                <span class="price-sales"> @Model.Produto.Valor.ToString("C")</span>
+                <span class="price-standard">@Model.Produto.ValorAntigo.ToString("C")</span>
+            </div>
+
+            <div class="details-description">
+                <p>@Model.Produto.Descricao </p>
+                <hr />
+                <img src="@Model.Produto.Marca.Imagem" style="width: 200px" alt="img">
+                <span>@Model.Produto.Marca.Nome</span>
+            </div>
+
+            <div class="color-details">
+                <span class="selected-color"><strong>COR</strong></span>
+                <ul class="swatches Color">
+                    <li class="selected"><a style="background-color:#f1f40e"> </a></li>
+                    <li><a style="background-color:#adadad"> </a></li>
+                    <li><a style="background-color:#4EC67F"> </a></li>
+                </ul>
+            </div>
+            <!--/.color-details-->
+
+            <div class="productFilter productFilterLook2">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-6">
+                        <div class="filterBox">
+                            <select class="form-control">
+                                <option value="-1" selected>Quantity</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-6">
+                        <div class="filterBox">
+                            <select class="form-control">
+                                <option value="-1" selected>Size</option>
+                                <option value="5">XL</option>
+                                <option value="4">XXL</option>
+                                <option value="3">M</option>
+                                <option value="2">L</option>
+                                <option value="1">S</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- productFilter -->
+
+            <div class="cart-actions">
+                @if (Model.Produto.TemEstoque)
+                {
+                    <div class="addto row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <form asp-controller="Carrinho" asp-action="Adicionar">
+                                <input type="hidden" name="NomeUnico" value="@Model.Produto.NomeUnico" />
+                                <button type="submit"
+                                        class="button btn-block btn-cart cart first" title="Adicionar ao carrinho">
+                                    Adicionar ao carrinho
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+
+                    <div style="clear: both"></div>
+
+                    <h3 class="incaps"><i class="fa fa fa-check-circle-o color-in"></i> Em estoque</h3>
+
+                }
+                else
+                {
+                    <h3 style="display: none" class="incaps">
+                        <i class="fa fa-minus-circle color-out"></i> Sem estoque
+                    </h3>
+
+                }
+
+
+                <h3 class="incaps"><i class="glyphicon glyphicon-lock"></i> Pagamento Seguro</h3>
+            </div>
+            <!--/.cart-actions-->
+
+            <div class="clear"></div>
+
+            <div class="product-tab w100 clearfix">
+
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#details" data-toggle="tab">Details</a></li>
+                    <li><a href="#size" data-toggle="tab">Size</a></li>
+                    <li><a href="#shipping" data-toggle="tab">Shipping</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="details">
+                        @Model.Produto.Detalhes
+                    </div>
+                    <div class="tab-pane" id="size">
+                        Detalhes da embalagem:<br />
+                        <dl class="dl-horizontal">
+                            <dt>Largura:</dt>
+                            <dd>@Model.Produto.Embalagem.Largura.ToString("N")</dd>
+                            <dt>Altura:</dt>
+                            <dd>@Model.Produto.Embalagem.Altura.ToString("N")</dd>
+                            <dt>Comprimento:</dt>
+                            <dd>@Model.Produto.Embalagem.Comprimento.ToString("N")</dd>
+                            <dt>Peso:</dt>
+                            <dd>@Model.Produto.Embalagem.Peso.ToString("N")</dd>
+                        </dl>
+                    </div>
+
+                    <div class="tab-pane" id="shipping">
+                        <div class="col-lg-9 col-md-12">
+                            <table class="table table-responsive">
+                                <tbody>
+                                    @foreach (var frete in Model.OpcoesFrete)
+                                    {
+                                        <tr>
+                                            <td><b>@frete.Modalidade</b></td>
+                                            <td>@frete.Descricao</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3">* Gratuito em compras de R$ 200,00</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.tab content -->
+
+            </div>
+            <!--/.product-tab-->
+
+            <div style="clear:both"></div>
+
+            <div class="product-share clearfix">
+                <p> COMPARTILHE </p>
+
+                <div class="socialIcon">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=@enc" target="_blank" rel="noopener noreferrer nofollow">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url=@enc&text=@text" target="_blank" rel="noopener noreferrer nofollow">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+            <!--/.product-share-->
+
+        </div>
+        <!--/ right column end -->
+
+    </div>
+    <!--/.row-->
+    @if (Model.ProdutosRelacionados.Any())
+    {
+        <div class="row recommended">
+
+            <h1> VEJA TAMBÉM </h1>
+
+            <div id="SimilarProductSlider">
+                @foreach (var produto in Model.ProdutosRelacionados)
+                {
+                    <div class="item">
+                        <partial name="Produtos/_ProdutosSimples" model="produto" />
+                    </div>
+                }
+
+
+            </div>
+            <!--/.SimilarProductSlider-->
+        </div>
+        <!--/.recommended-->
+    }
+
+
+    <div style="clear:both"></div>
+
+
+</div>
+<!-- /main-container -->
+
+
+<section class="section-review graybg" id="product-review">
+    <div class="container">
+
+        <div class="hero-section-header productReviewTitleBAr">
+            <h3 class="hero-section-title"><i class="fa fa-2x  fa-comments-o"></i> Avaliações</h3>
+
+            <div class="rating commentRating">
+                <p>
+                    @for (int i = 0; i < Math.Round(Model.NotaMedia()); i++)
+                    {
+                        <span><i class="fa fa-star"></i></span>
+                    }
+                    @for (var i = Math.Round(Model.NotaMedia()); i < 5; i++)
+                    {
+                        <span><i class="fa fa-star-o"></i></span>
+                    }
+                    <span class="ratingInfo">
+                        <span class="ratingNumber">(@Model.NotaMedia().ToString("N")) </span>  Média das avaliações
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 review-sortByBar">
+                <div class="pull-left">
+                    <h4 class="no-margin-no-padding uppercase"><span class="bold">@Model.Produto.Avaliacoes.Count()</span> Avaliações </h4>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="all-review-wrapper wow  fadeIn">
+            @foreach (var comentario in Model.Produto.Avaliacoes)
+            {
+                <partial name="_Avaliacoes" model="comentario" />
+            }
+            <div class="row">
+                <div class="col-lg-12 review-load-more">
+                    <div class=" text-center">
+                        <a class="btn  btn-success" data-target="#modal-review" data-toggle="modal">
+                            <i class="fa fa-edit"></i> Avaliar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</section>
+<!--/.section-review-->
+<!-- Modal review start -->
+<div class="modal  fade" id="modal-review" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times;</button>
+                <h3 class="modal-title-site text-center">DEIXE SEU COMENTÁRIO </h3>
+            </div>
+            <div class="modal-body">
+
+                <h3 class="reviewtitle uppercase"><b>@Model.Produto.Nome</b></h3>
+
+                <form asp-controller="Produtos" asp-action="Comentar" asp-route-produto="@Model.Produto.NomeUnico">
+                    <div class="form-group">
+                        <label>
+                            Sua nota
+                        </label> <br>
+
+                        <div class="rating-here">
+                            <input type="hidden" name="Nota" class="rating-tooltip-manual" data-filled="fa fa-star fa-2x"
+                                   data-empty="fa fa-star-o fa-2x" data-step="1" />
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="rtext">Nome</label>
+                        <input type="text" class="form-control" name="Usuario" id="rtext" placeholder="Seu nome" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rtext">Titulo</label>
+                        <input type="text" class="form-control" name="Titulo" placeholder="Seu nome" required>
+                    </div>
+
+
+                    <div class="form-group ">
+                        <label>Comente</label>
+                        <textarea class="form-control" rows="3" name="Comentario" placeholder="Suas observações" required></textarea>
+
+                    </div>
+
+
+                    <button type="submit" class="btn btn-success">Enviar</button>
+                </form>
+
+
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+
+    </div>
+    <!-- /.modal-dialog -->
+
+</div>
+<!-- /.Modal review -->

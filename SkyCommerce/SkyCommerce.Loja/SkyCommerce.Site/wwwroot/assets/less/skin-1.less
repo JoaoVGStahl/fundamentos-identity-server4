@@ -1,0 +1,250 @@
+// Variable
+
+@primaryColor: #4ec67f;
+// navbar background, btn-primary
+@primaryDarkColor: #4BB777;
+// navbar top background
+@primaryHoverColor: #27AE60;
+// btn-primary:hover, navbar a:hover
+@primaryLiteColor: #66de97;
+
+// MIXINS
+
+.crossbrowseropacity (@color,@alpha) {
+  @rgba: rgba(red(@color), green(@color), blue(@color),@alpha);
+  @argb: argb(@rgba);
+  background-color: @color;
+  background-color: @rgba;
+  filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{argb}, endColorstr=@{argb})";
+  -ms-filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{argb}, endColorstr=@{argb})";
+}
+
+// STYLE
+
+::selection {
+  color: #ffffff;
+  background: @primaryDarkColor;
+}
+
+::-moz-selection {
+  color: #ffffff;
+  background: @primaryDarkColor;
+}
+
+.site-color {
+  color: @primaryColor !important;
+}
+
+a:hover, a:focus, a.link, .link {
+  color: @primaryColor;
+}
+
+.search-full, .search-input {
+  background: @primaryDarkColor;
+}
+
+.search-close {
+  color: @primaryDarkColor;
+}
+
+.searchInputBox .search-btn {
+  color: #ffffff;
+}
+
+.navbar-tshop {
+  background: @primaryColor;
+}
+
+.btn-primary, .product:hover .add-fav:hover, .product:hover .add-fav.active {
+  background-color: @primaryColor;
+  color: #ffffff;
+}
+
+.btn-primary:hover, .btn-primary:focus, .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+  background-color: @primaryLiteColor;
+  border-color: @primaryLiteColor;
+  color: #ffffff;
+}
+
+.btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+  background-color: @primaryLiteColor;
+  border-color: @primaryLiteColor;
+  color: #ffffff;
+  background: @primaryColor;
+}
+
+
+.btn-primary:active:hover, .btn-primary.active:hover,
+.open > .dropdown-toggle.btn-primary:hover, .btn-primary:active:focus,
+.btn-primary.active:focus, .open > .dropdown-toggle.btn-primary:focus,
+.btn-primary.focus:active, .btn-primary.active.focus,
+.open > .dropdown-toggle.btn-primary.focus {
+  background-color: @primaryLiteColor;
+  border-color: @primaryLiteColor;
+  color: #ffffff;
+  background: @primaryColor;
+}
+
+
+.navbar-top {
+  background: @primaryDarkColor;
+}
+
+
+
+.navbar-nav > li > a {
+  color: #ffffff;
+}
+
+.nav {
+  > li.active, > li > a:hover, > li > a:focus, > li:hover > a {
+    background: @primaryHoverColor;
+  }
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus, .cartMenu:hover > a.dropdown-toggle {
+  background: @primaryHoverColor;
+}
+
+.dropdown-menu {
+  border-top: solid @primaryHoverColor;
+}
+
+.search-box:hover .form-control {
+  background: @primaryColor;
+}
+
+.search-box:hover .btn-nobg {
+  color: @primaryColor;
+}
+
+.mCS-dark-2 > .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+  .crossbrowseropacity (@primaryColor, .5) !important;
+}
+
+.action-control {
+  a:hover, a.active {
+    color: #ffffff;
+    background: @primaryHoverColor;
+  }
+}
+
+.product:hover, .featuredImgLook2 .inner:hover {
+  border: 1px solid @primaryColor;
+}
+
+.subCategoryList .thumbnail:hover {
+  border: 1px solid @primaryColor;
+}
+
+#pager a.cycle-pager-active {
+  .crossbrowseropacity (@primaryDarkColor, .7) !important;
+}
+
+.pager2 a {
+  border: 1px solid @primaryColor;
+}
+
+.pager2 a.selected {
+  background: @primaryColor;
+}
+
+.btn-site, .newsLatterBox .btn {
+  background: @primaryColor;
+}
+
+.btn-discover:hover, .btn-site:hover, .newsLatterBox .btn:hover {
+  background: @primaryHoverColor;
+}
+
+.full {
+  width: 100%;
+}
+
+.footer {
+  a:hover {
+    color: @primaryColor;
+  }
+}
+
+.modal-header {
+  background: @primaryColor;
+}
+
+.form-control:focus {
+  border-color: @primaryColor;
+}
+
+.new-product {
+  .crossbrowseropacity (@primaryColor, .95) !important;
+}
+
+.nav.tree {
+  > li.active, > li > a:hover, > li > a:focus, > li:hover > a {
+    background: none;
+    color: #2a2a2a;
+  }
+  .open-tree {
+    > a, > a:hover, > a:focus {
+      background: none;
+      font-weight: bold;
+      color: #303030;
+    }
+  }
+}
+
+.panel-default > .panel-heading {
+  border-top: 4px solid @primaryColor;
+}
+
+.nav-tabs {
+  border-bottom: 3px solid #bfc9ca;
+  > li.active > a, > li.active > a:hover, > li.active > a:focus, > li:hover > a {
+    background: #bfc9ca;
+  }
+}
+
+.socialIcon a:hover {
+  background: @primaryColor;
+}
+
+.cart-actions {
+  button, .wishlist {
+    background: none repeat scroll 0 0 @primaryColor;
+    border: 2px solid @primaryHoverColor;
+  }
+  button:hover {
+    background: #ffffff;
+    color: #303030;
+    border: solid 2px @primaryColor;
+  }
+}
+
+.sp-thumbs a:hover, .sp-thumbs a:active, .sp-current, .sp-current:visited {
+  border: 2px solid @primaryColor !important;
+}
+
+.promo-1 {
+  background: none repeat scroll 0 0 @primaryHoverColor;
+}
+
+#pager2 span.cycle-pager-active {
+  background: @primaryColor !important;
+}
+
+#pager2 span {
+  border: 2px solid @primaryColor;
+}
+
+.orderStep li.active a {
+  background: @primaryColor;
+}
+
+.orderStep li.active a:after {
+  border-top-color: @primaryColor !important;
+}
+
+.orderStep li a {
+  background: @primaryLiteColor;
+}
+

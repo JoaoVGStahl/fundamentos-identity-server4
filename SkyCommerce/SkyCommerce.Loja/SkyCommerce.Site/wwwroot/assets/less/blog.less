@@ -1,0 +1,287 @@
+/*
+
+This less file only for blog pages.
+
+*/
+@import "var/config";
+
+// blog
+
+.blog-intro {
+  height: 350px;
+  display: block;;
+  clear: both;
+  position: relative;
+  border-bottom: 4px solid @primaryColor;
+  transition: none;
+
+}
+
+@media @xsOnly {
+  .blog-intro {
+    background-position: 50% 0 !important;
+  }
+}
+
+.subscribe-dropdown {
+  display: inline-block;
+  width: auto;
+  max-width: 200px;
+  clear: both;
+  .dropdown-menu {
+    border-radius: 0;
+    padding: 5px;
+    width: 200px;
+    top: 50px;
+    font-size: 14px;
+    color: #303030;
+    background: #f0f0f2;
+    &:after {
+      bottom: 100%;
+      left: 50%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: rgba(136, 183, 213, 0);
+      border-bottom-color: #f0f0f2;
+      border-width: 10px;
+      margin-left: -10px;
+    }
+
+    li {
+      padding: 4px 10px;
+      line-height: 1.75em;
+      span {
+        margin-bottom: 0 !important;
+      }
+      > a {
+        color: #4f4f4f;
+        font-size: 13px;
+        letter-spacing: 0.06em;
+        padding: 0;
+        background: none;
+        &:hover, &:focus {
+          background: none;
+        }
+
+      }
+      input#subemail {
+        width: 100%;
+        color: #b9b8b8;
+        font-size: 13px;
+        margin-top: 6px;
+        padding: 4px 0;
+        text-align: center;
+        width: 100%;
+      }
+
+      .btn {
+        background: #2a2a2a;
+        border-radius: 0;
+        color: #fff;
+        font-size: 13px;
+        display: block;
+        letter-spacing: 1px;
+        margin: 0;
+        padding: 6px 0;
+        text-align: center;
+        text-transform: uppercase;
+        &:hover {
+          background: #4f4f4f;
+        }
+      }
+    }
+  }
+}
+
+.btn-more {
+  background: #2a2a2a;
+  border-radius: 0;
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 1px;
+  margin: 0;
+  text-align: center;
+  text-transform: uppercase;
+  &:hover {
+    background: #4f4f4f;
+    color: #fff;
+  }
+}
+
+.btn-subscribe {
+  border: 1px solid #fff;
+  border-radius: 0;
+  color: #fff;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  padding: 8px 0;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 200px;
+  &:hover {
+    background: #fff;
+    color: #34495e;
+  }
+}
+
+.blogIntroContent {
+  color: #fff;
+
+  p {
+    font-size: 20px;
+    opacity: .9;
+  }
+}
+
+.col-centered {
+  float: none;
+  margin: 0 auto;
+}
+
+.item-blog-post {
+
+  margin: 0 auto 30px;
+
+  h2 {
+    border-bottom: 1px solid #ddd;
+    clear: both;
+    font-size: 28.6px;
+    font-weight: bold;
+    letter-spacing: 0;
+    margin: 28px 0;
+    padding-bottom: 15px;
+    position: relative;
+
+  }
+
+  .post-header {
+    border-top: 1px solid #e6e6e6;
+
+    .post-info {
+      line-height: 30px;
+      margin-bottom: 28px;
+      a.userBy {
+        font-family: Georgia;
+        font-style: italic;
+      }
+    }
+    .share-gallery {
+      a {
+        color: #fff;
+        display: inline-block;
+        float: left;
+        height: 30px;
+        line-height: 30px;
+        max-width: 100px;
+        min-width: 42px;
+        text-align: center;
+        margin-left: 10px;
+        padding: 0 5px;
+      }
+
+      .share-facebook {
+        background-color: #3b5998;
+      }
+
+      .share-twitter {
+        background-color: #00aced;
+      }
+      .share-pinterest {
+        background-color: #c92228;
+      }
+
+      .share-email {
+        background-color: #333;
+      }
+
+    }
+
+  }
+
+  .post-main-view {
+    background: #FAFAFA;
+
+    .post-lead-image {
+      img {
+        width: 100%;
+      }
+
+    }
+    .post-description {
+      padding: 30px;
+      font-size: 16px;
+      line-height: 1.625;
+      font-weight: 300;
+    }
+  }
+
+}
+
+// blog-post
+
+.loadMoreBlog {
+  .btn {
+    border: 1px solid #ededed;
+    border-radius: 0;
+    color: #777;
+    display: block;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    padding: 10px 0;
+
+    &:hover {
+      background: #ededed;
+    }
+  }
+}
+
+.RecommendedBlog {
+
+  .RecommendedTitle {
+    text-transform: uppercase;
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+    clear: both;
+    letter-spacing: 0.04em;
+    margin-bottom: 25px;
+  }
+
+  .blog-rc-item {
+    margin-bottom: 15px;
+    .rcimg {
+      max-height: 140px;
+      display: block;;
+      overflow: hidden;
+      &:hover {
+        opacity: .7;
+      }
+    }
+    .h4 {
+      display: block;
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 10px;
+      line-height: normal;
+    }
+  }
+
+}
+
+// Responsive Issue
+
+@desktop: ~"only screen and (min-width: 960px) and (max-width: 1199px)";
+@tablet: ~"only screen and (min-width: 720px) and (max-width: 959px)";
+@mobile: ~"only screen and (min-width: 0) and (max-width: 767px)";
+
+@media @mobile {
+  .post-header {
+    margin-bottom: 15px;
+  }
+}

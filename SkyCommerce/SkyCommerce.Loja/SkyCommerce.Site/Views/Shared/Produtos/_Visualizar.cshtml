@@ -1,0 +1,98 @@
+﻿@model SkyCommerce.Models.Produto
+@{
+    string currentUrl = Context.Request.Scheme + "://" + Context.Request.Host + @Url.Action("Detalhes", "Catalogo", new { produto = Model.NomeUnico });
+    string enc = System.Net.WebUtility.UrlEncode(currentUrl);
+    string text = System.Net.WebUtility.UrlEncode(Model.Nome);
+}
+<button aria-hidden="true" data-dismiss="modal" class="close" type="button"> ×</button>
+<div class="col-lg-5 col-md-5 col-sm-5  col-xs-12">
+
+    <!-- product Image -->
+    <div class="main-image  col-lg-12 no-padding style3">
+        <a class="product-largeimg-link" asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@Model.NomeUnico">
+            <img src="@Model.Imagem"
+                 class="img-responsive product-largeimg"
+                 alt="img">
+        </a>
+    </div>
+    <!--/.main-image-->
+
+    <div class="modal-product-thumb">
+        <a class="thumbLink selected">
+            <img data-large="@Model.Imagem" alt="img" class="img-responsive" src="@Model.Imagem">
+        </a>
+        @foreach (var imagem in Model.Imagens)
+        {
+            <a class="thumbLink selected">
+                <img data-large="@imagem" alt="img" class="img-responsive" src="@imagem">
+            </a>
+        }
+    </div>
+    <!--/.modal-product-thumb-->
+</div>
+<!--/ product Image-->
+
+
+<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 modal-details no-padding">
+    <div class="modal-details-inner">
+        <h1 class="product-title"> @Model.Nome</h1>
+
+        <h3 class="product-code">Codigo : @Model.Codigo</h3>
+
+        <div class="product-price">
+            <span class="price-sales"> @Model.Valor.ToString("C")</span> <span class="price-standard">@Model.ValorAntigo.ToString("C")</span>
+        </div>
+        <div class="details-description">
+            <p>@Model.Descricao </p>
+        </div>
+        <div class="color-details">
+            <span class="selected-color"><strong>COR</strong></span>
+            <ul class="swatches Color">
+                <li class="selected">
+                    <a style="background-color:#f1f40e"> </a>
+                </li>
+                <li>
+                    <a style="background-color:#adadad"> </a>
+                </li>
+                <li>
+                    <a style="background-color:#4EC67F"> </a>
+                </li>
+            </ul>
+        </div>
+        <!--/.color-details-->
+
+
+        <div class="cart-actions">
+            <div class="addto row">
+                <div class="col-lg-6">
+                    <form asp-controller="Carrinho" asp-action="Adicionar">
+                        <input type="hidden" name="NomeUnico" value="@Model.NomeUnico" />
+                        <button class="button btn-block btn-cart cart first" title="Adicionar ao Carrinho"
+                                type="submit">
+                            Adicionar ao Carrinho
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <!--/.cart-actions-->
+
+        <div class="product-share clearfix">
+            <p> Compartilhe </p>
+
+            <div class="socialIcon">
+                <a href="https://www.facebook.com/sharer/sharer.php?u=@enc" target="_blank" rel="noopener noreferrer nofollow">
+                    <i class="fa fa-facebook"></i>
+                </a>
+                <a href="https://twitter.com/intent/tweet?url=@enc&text=@text" target="_blank" rel="noopener noreferrer nofollow">
+                    <i class="fa fa-twitter"></i>
+                </a>
+            </div>
+        </div>
+        <!--/.product-share-->
+    </div>
+    <!--/.modal-details-inner-->
+</div>
+<!--/.modal-details-->
+<div class="clear"></div>

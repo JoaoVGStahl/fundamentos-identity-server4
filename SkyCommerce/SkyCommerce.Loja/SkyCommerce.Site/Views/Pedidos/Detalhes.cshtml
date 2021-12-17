@@ -1,0 +1,285 @@
+﻿@using Humanizer
+@using SkyCommerce.Extensions
+@using SkyCommerce.Models
+@model SkyCommerce.Models.Pedido
+<div class="container main-container headerOffset">
+    <div class="row">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li><a asp-controller="Account" asp-action="MinhaConta">Minha conta</a></li>
+                <li><a asp-controller="Pedidos" asp-action="Index">Pedidos</a></li>
+                <li class="active">#@Model.IdentificadorUnico</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-7">
+            <h1 class="section-title-inner"><span><i class="fa fa-list-alt"></i> Pedido </span></h1>
+
+            <div class="row userInfo">
+                <div class="col-lg-12">
+                    <h2 class="block-title-2"> Detalhes do seu Pedido </h2>
+                </div>
+
+
+                <div class="statusContent">
+
+
+                    <div class="col-sm-12">
+                        <div class=" statusTop">
+                            <p><strong>Status:</strong> @Model.StatusPedido</p>
+
+                            <p><strong>Data do pedido:</strong> @Model.DataPagamento.Humanize()</p>
+
+                            <p><strong>Pedido:</strong> #@Model.IdentificadorUnico </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="order-box">
+                            <div class="order-box-header">
+
+                                Endereço de cobrança
+                            </div>
+
+
+                            <div class="order-box-content">
+                                <div class="address">
+                                    <p><strong>@Model.EnderecoCobranca.Nome </strong></p>
+
+                                    <p><strong>@Model.EnderecoCobranca.Sobrenome </strong></p>
+
+                                    <div class="adr">
+                                        @Model.EnderecoCobranca.Logradouro, @Model.EnderecoCobranca.Bairro @Model.EnderecoCobranca.Cidade - @Model.EnderecoCobranca.Estado, CEP: @Model.EnderecoCobranca.Cep
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-sm-6">
+                        <div class="order-box">
+                            <div class="order-box-header">
+
+                                Endereço de entrega
+                            </div>
+
+
+                            <div class="order-box-content">
+
+
+                                <div class="address">
+                                    <p><strong>@Model.EnderecoEntrega.Nome </strong></p>
+
+                                    <p><strong>@Model.EnderecoEntrega.Sobrenome </strong></p>
+
+                                    <div class="adr">
+                                        @Model.EnderecoEntrega.Logradouro, @Model.EnderecoEntrega.Bairro @Model.EnderecoEntrega.Cidade - @Model.EnderecoEntrega.Estado, CEP: @Model.EnderecoEntrega.Cep
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="clear: both"></div>
+
+                    <div class="col-sm-6">
+                        <div class="order-box">
+                            <div class="order-box-header">
+
+                                Metodo de pagamento
+                            </div>
+
+
+                            <div class="order-box-content">
+                                <div class="address">
+                                    <p>
+                                        Pagamento feito via @Model.TipoPagamento
+                                    </p>
+                                    @if (Model.TipoPagamento == TipoPagamento.CartaoCredito)
+                                    {
+                                        <p><strong>Nome no Cartao: </strong> @Model.Cartao.Nome </p>
+
+                                        <p><strong>Cartão: </strong> @Model.Cartao.Numero </p>
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-sm-6">
+                        <div class="order-box">
+                            <div class="order-box-header">
+
+                                Frete
+                            </div>
+
+
+                            <div class="order-box-content">
+                                <div class="address">
+                                    @if (Model.Frete.Modalidade == "Gratis")
+                                    {
+                                        <p>  Frete gratuito</p>
+                                    }
+                                    else
+                                    {
+                                        <p> via @Model.Frete.Modalidade <span title="tracking number">#@Model.RastreamentoFrete</span></p>
+                                    }
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-sm-12 clearfix">
+                        <div class="order-box">
+                            <div class="order-box-header">
+
+                                Produtos
+                            </div>
+
+
+                            <div class="order-box-content">
+                                <div class="table-responsive">
+                                    <table class="order-details-cart">
+                                        <tbody>
+                                            @foreach (var item in Model.Produtos)
+                                            {
+                                                <tr class="cartProduct">
+                                                    <td class="cartProductThumb" style="width: 20%">
+                                                        <div>
+                                                            <a asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@item.NomeUnico">
+                                                                <img src="@item.Imagem" alt="@item.Nome">
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td style="width: 40%">
+                                                        <div class="miniCartDescription">
+                                                            <h4><a asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@item.NomeUnico"> @item.Nome </a></h4>
+
+                                                            <div class="price"><span> @item.Valor.ToString("C") </span></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="" style="width: 10%"><a> X @item.Quantidade </a></td>
+                                                    <td class="" style="width: 15%"><span> @item.Total.ToString("C") </span></td>
+
+                                                </tr>
+                                            }
+
+                                            <tr class="cartTotalTr blank">
+                                                <td class="" style="width: 20%">
+                                                    <div></div>
+                                                </td>
+                                                <td style="width: 40%"></td>
+                                                <td class="" style="width: 20%"></td>
+                                                <td class="" style="width: 15%"><span> </span></td>
+
+                                            </tr>
+
+                                            <tr class="cartTotalTr">
+                                                <td class="" style="width: 20%">
+                                                    <div></div>
+                                                </td>
+                                                <td colspan="2" style="width: 40%">Total produtos</td>
+                                                <td class="" style="width: 15%"><span> @Model.TotalProdutos.ToString("C") </span></td>
+
+                                            </tr>
+                                            <tr class="cartTotalTr">
+                                                <td class="" style="width: 20%">
+                                                    <div></div>
+                                                </td>
+                                                <td colspan="2" style="width: 40%">Entrega</td>
+                                                <td class="" style="width: 15%">
+                                                    @if (Model.Frete.Modalidade == "Gratis")
+                                                    {
+                                                        <span>Gratuito</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>@Model.Frete.Valor.ToString("C")</span>
+                                                    }
+                                                </td>
+
+                                            </tr>
+                                            <tr class="cartTotalTr">
+                                                <td class="" style="width: 20%">
+                                                    <div></div>
+                                                </td>
+                                                <td colspan="2" style="width: 40%">Total sem impostos</td>
+                                                <td class="" style="width: 15%"><span> @Model.TotalSemImposto.ToString("C") </span></td>
+
+                                            </tr>
+                                            <tr class="cartTotalTr">
+                                                <td class="" style="width: 20%">
+                                                    <div></div>
+                                                </td>
+                                                <td style="width: 40%"></td>
+                                                <td class="" style="width: 20%">Total</td>
+                                                <td class="" style="width: 15%"><span class="price"> @Model.Total.ToString("C") </span></td>
+
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    @if (Model.Comentario.IsPresent())
+                    {
+                        <div class="col-sm-12">
+                            <div class="order-box">
+                                <div class="order-box-header">
+
+                                    Observações
+                                </div>
+
+
+                                <div class="order-box-content">
+                                    <p>@Model.Comentario</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+
+                <div class="col-lg-12 clearfix">
+                    <ul class="pager">
+                        <li class="previous pull-right">
+                            <a asp-controller="Home" asp-action="Index"> <i class="fa fa-home"></i> Comprar </a>
+                        </li>
+                        <li class="next pull-left"><a asp-controller="Pedidos" asp-action="Index"> &larr; Voltar</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!--/row end-->
+
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-5"></div>
+    </div>
+    <!--/row-->
+
+    <div style="clear:both"></div>
+</div>
+<!-- /main-container -->

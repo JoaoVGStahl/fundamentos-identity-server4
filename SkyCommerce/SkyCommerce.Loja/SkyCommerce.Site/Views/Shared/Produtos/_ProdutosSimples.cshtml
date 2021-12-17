@@ -1,0 +1,11 @@
+﻿@model SkyCommerce.Models.Produto
+<div class="product">
+    <a class="product-image" asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@Model.NomeUnico"> <img src="@Model.Imagem" alt="img"> </a>
+
+    <div class="description">
+        <h4><a asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@Model.NomeUnico">@Model.Nome</a></h4>
+
+        <div class="price"><span>@Model.Valor.ToString("C")</span></div>
+    </div>
+</div>
+<!--/.item-->

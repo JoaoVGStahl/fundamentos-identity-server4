@@ -1,0 +1,310 @@
+﻿@using SkyCommerce.Extensions
+@using System.Globalization
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts{
+
+    <script>
+
+
+        $(document).ready(function () {
+            $('input#frete').on('ifChecked', function (event) {
+                document.getElementById('freteModalidade').value = $('input[name="Modalidade"]:checked').val();
+                document.getElementById('formFrete').submit();
+            });
+
+            $('input#newAddress').on('ifChanged', function (event) {
+                //alert(event.type + ' callback');
+                $('#newBillingAddressBox').collapse("show");
+                $('#exisitingAddressBox').collapse("hide");
+
+            });
+
+            $('input#exisitingAddress').on('ifChanged', function (event) {
+                //alert(event.type + ' callback');
+                $('#newBillingAddressBox').collapse("hide");
+                $('#exisitingAddressBox').collapse("show");
+            });
+
+
+            $('input#newShippingAddress').on('ifChanged', function (event) {
+                //alert(event.type + ' callback');
+                $('#newShippingAddressBox').collapse("show");
+
+            });
+
+            $('input#existingShippingAddress').on('ifChanged', function (event) {
+                //alert(event.type + ' callback');
+                $('#newShippingAddressBox').collapse("hide");
+
+            });
+
+
+            $('input#creditCard').on('ifChanged', function (event) {
+                //alert(event.type + ' callback');
+                $('#creditCardCollapse').collapse("toggle");
+
+            });
+
+
+            $('input#CashOnDelivery').on('ifChanged', function (event) {
+                //alert(event.type + ' callback');
+                $('#CashOnDeliveryCollapse').collapse("toggle");
+
+            });
+
+
+        });
+
+
+    </script>
+}
+<form id="formFrete" asp-controller="Carrinho" asp-action="SelecionarFrete" asp-route-returnurl="@Url.Action("Index", "Checkout")">
+    <input type="hidden" id="freteModalidade" name="Modalidade" />
+</form>
+<!-- /.Fixed navbar  -->
+<div class="container main-container headerOffset">
+    <div class="row">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li><a asp-controller="Carrinho" asp-action="Index">Carrinho</a></li>
+                <li> Checkout</li>
+                <li class="active"> Frete & Cupom</li>
+            </ul>
+        </div>
+    </div>
+    <!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-7">
+            <h1 class="section-title-inner">
+                <span>
+                    <i class="glyphicon glyphicon-shopping-cart"></i> FINALIZAR COMPRA - REVISAR FRETE & CUPOM
+                </span>
+            </h1>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar">
+            <h4 class="caps"><a asp-action="Index" asp-controller="Home"><i class="fa fa-chevron-left"></i> Continuar comprando </a></h4>
+        </div>
+    </div>
+    <!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            @if (TempData["ERRO"] != null)
+            {
+                <div class="alert alert-danger">
+                    <strong>Erros</strong>
+                    @TempData["ERRO"]
+                </div>
+            }
+            <div class="row userInfo">
+                <div class="col-xs-12 col-sm-12">
+
+
+                    <div class="w100 clearfix">
+                        <div class="row userInfo">
+
+                            <div style="clear: both"></div>
+
+                            <div class="onepage-checkout col-lg-12">
+
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="">
+                                            <h4 class="panel-title">
+                                                <a class="collapsed" role="button" data-toggle="collapse"
+                                                   data-parent="#accordion" href="#Deliverymethod" aria-expanded="false"
+                                                   aria-controls="Deliverymethod">
+                                                    Frete
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="Deliverymethod" class="panel-collapse collapse" role="tabpanel"
+                                             aria-labelledby="Deliverymethod">
+                                            <div class="panel-body">
+                                                <div class="w100 row">
+                                                    <div class="form-group col-lg-12 col-sm-12 col-md-12 -col-xs-12">
+                                                        <form asp-action="SelecionarFrete" asp-controller="Carrinho" asp-route-returnurl="@Url.Action("Index", "Checkout")">
+                                                            <table style="width: 100%"
+                                                                   class="table-bordered table tablelook2">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th></th>
+                                                                        <th>Modalidade</th>
+                                                                        <th>Detalhes</th>
+                                                                        <th>Preço!</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @if (Model.Carrinho.TotalProdutos > 200)
+                                                                    {
+                                                                        <tr>
+                                                                            <td colspan="4" class="text-center"><span class="success">Gratuito</span> </td>
+                                                                        </tr>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @foreach (var opcao in Model.OpcoesFrete)
+                                                                        {
+                                                                            <tr>
+                                                                                <td>
+                                                                                    @{
+                                                                                        var selecionado = Model.Carrinho.Frete?.Modalidade == opcao.Modalidade ? "checked=\"checked\"" : string.Empty;
+                                                                                    }
+                                                                                    <label>
+                                                                                        <input type="radio" @selecionado id="frete" name="Modalidade" value="@opcao.Modalidade" />
+                                                                                    </label>
+                                                                                </td>
+                                                                                <td> @opcao.Modalidade</td>
+                                                                                <td>@opcao.Descricao</td>
+                                                                                <td>@opcao.Valor.ToString("C")</td>
+                                                                            </tr>
+                                                                        }
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="">
+                                            <h4 class="panel-title">
+                                                <a class="collapsed" role="button" data-toggle="collapse"
+                                                   data-parent="#accordion" href="#Deliverymethod" aria-expanded="false"
+                                                   aria-controls="Deliverymethod">
+                                                    Cupom
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="Fretemethod" class="panel-collapse collapse" role="tabpanel"
+                                             aria-labelledby="Deliverymethod">
+                                            <div class="panel-body">
+
+                                                <div class="w100 row">
+
+                                                    <div class="form-group col-lg-12 col-sm-12 col-md-12 -col-xs-12">
+
+                                                        <form asp-controller="Carrinho" asp-action="Cupom" asp-route-returnurl="@Url.Action("Index", "Checkout")">
+                                                            <div class="form-group required">
+                                                                <label for="InputZip">
+                                                                    Cupom de desconto
+                                                                </label>
+                                                            </div>
+                                                            <input class="col-lg-8" id="appendedInputButton" name="Cupom" type="text"
+                                                                   placeholder="Cupom">
+                                                            <button class="col-lg-4 btn btn-success" type="submit">Aplicar!</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!--onepage-checkout-->
+                        </div>
+                        <!--/row end-->
+
+                    </div>
+
+
+                    <div class="cartFooter w100">
+                        <div class="box-footer">
+                            <div class="pull-left">
+                                <a class="btn btn-default" asp-controller="Carrinho" asp-action="Index">
+                                    <i class="fa fa-arrow-left"></i> &nbsp; Revisar Carrinho
+                                </a>
+                            </div>
+                            <div class="pull-right">
+                                <a class="btn btn-primary" asp-controller="Checkout" asp-action="DadosPagamento">Continuar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/row end-->
+
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 rightSidebar">
+            <div class="w100 cartMiniTable">
+
+
+                <table id="cart-summary" class="std table">
+                    <tbody>
+                        <tr>
+                            <td>Total produtos</td>
+                            <td class="price">@Model.Carrinho.TotalProdutos.ToString("C")</td>
+                        </tr>
+                        <tr style="">
+                            <td>Entrega</td>
+
+                            @if (Model.Carrinho.TotalProdutos > 200)
+                            {
+                                <td class="price">
+                                    <span class="success">Gratuito</span>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="price">
+                                    <span>@Model.Carrinho.Frete?.Valor.ToString("C")</span>
+                                </td>
+                            }
+
+                        </tr>
+                        <tr class="cart-total-price ">
+                            <td>Total (sem impostos.)</td>
+                            <td class="price">@Model.Carrinho.TotalSemImposto.ToString("C")</td>
+                        </tr>
+                        <tr>
+                            <td>Impostos</td>
+                            <td class="price" id="total-tax">@Model.Carrinho.Imposto.ToString("C")</td>
+                        </tr>
+                        @if (Model.Carrinho.Cupom.IsPresent())
+                        {
+                            <tr>
+                                <td>Cupom: <br />&nbsp;<b>@Model.Carrinho.Cupom.ToUpper().Substring(0, 5)</b></td>
+                                <td class=" site-color" id="total-price">@Model.Carrinho.PercentualDesconto.ToString("N")%</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td> Total</td>
+                            <td class=" site-color" id="total-price">@Model.Carrinho.Total.ToString("C")</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="input-append couponForm">
+                                    <form asp-controller="Carrinho" asp-action="Cupom" asp-route-returnurl="@Url.Action("Index", "Checkout")">
+                                        <input class="col-lg-8" id="appendedInputButton" name="Cupom" type="text"
+                                               placeholder="Cupom">
+                                        <button class="col-lg-4 btn btn-success" type="submit">Aplicar!</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--  /cartMiniTable-->
+
+        </div>
+        <!--/rightSidebar-->
+
+    </div>
+    <!--/row-->
+
+    <div style="clear:both"></div>
+</div>
+

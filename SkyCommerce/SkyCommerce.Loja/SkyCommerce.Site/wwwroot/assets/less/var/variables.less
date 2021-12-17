@@ -1,0 +1,183 @@
+// VARIABLES 
+
+@primaryColor: #4ec67f;
+// navbar background, btn-primary
+@primaryDarkColor: #4BB777;
+// navbar top background
+@primaryHoverColor: #27AE60;
+// btn-primary:hover, navbar a:hover
+@primaryLiteColor: #66de97;
+
+@link-color: @primaryColor;
+
+@gray: #EDEEF0;
+@text-color: #454545;
+@text-color-liter: #6a6a6a;
+@text-color-extra-liter: #888;
+@text-color-darker: #3a3a3a;
+@text-color-extra-darker: #1e1e1e;
+
+// Site Font Size
+// -------------------------
+@baseFontSize: 13px;
+@media @xsOnly {
+  @baseFontSize: 10px;
+}
+
+// Media
+// -------------------------
+
+@desktopOnly: ~"only screen and (min-width: 768px)";
+@xsOnly: ~"only screen and (max-width: 767px)";
+@mdOnly: ~"only screen and (min-width: 991px) and (max-width: 1199px)";
+@tabletx: ~"only screen and (min-width: 720px) and (max-width: 959px)";
+@xmobile: ~"only screen and (max-width: 320px)";
+@lgmax: ~"only screen and (max-width: 1199px)";
+@mdmax: ~"only screen and (max-width: 1199px)";
+
+@xs-min: 480px;
+@sm-min: 768px;
+@md-min: 992px;
+@lg-min: 1200px;
+
+@xs-max: (@sm-min - 1);
+@sm-max: (@md-min - 1);
+@md-max: (@lg-min - 1);
+
+@phone: ~"only screen and (min-width: @{xs-min})";
+@phone-strict: ~"only screen and (min-width: @{xs-min}) and (max-width: @{xs-max})";
+@tablet: ~"only screen and (min-width: @{sm-min})";
+@tablet-strict: ~"only screen and (min-width: @{sm-min}) and (max-width: @{sm-max})";
+@desktop: ~"only screen and (min-width: @{md-min})";
+@desktop-strict: ~"only screen and (min-width: @{md-min}) and (max-width: @{md-max})";
+@large: ~"only screen and (min-width: @{lg-min})";
+@max-lg: ~"only screen and (max-width: @{md-max})";
+@max-xs: ~"only screen and (max-width: 767px)";
+@min-xs: ~"only screen and (max-width: 768px)";
+
+@smOnly: ~"only screen and (min-width:768px) and (max-width: 991px)";
+@mdOnly: ~"only screen and (min-width:992px) and (max-width: 1199px)";
+@max600: ~"only screen and (min-width:0) and (max-width: 600px)";
+@max480: ~"only screen and (min-width:0) and (max-width: 480px)";
+@max400: ~"only screen and (min-width:0) and (max-width: 400px)";
+@max360: ~"only screen and (min-width:0) and (max-width: 360px)";
+@min1000: ~"only screen and (min-width:1000px) ";
+/*
+   usage
+*/
+
+//@tablet: ~"only screen and (min-width: 720px) and (max-width: 959px)";
+
+@media @tablet-strict {
+  .hide-md {
+    display: none
+  }
+
+}
+
+@media (max-width: 360px) {
+  .col-xxs-12 {
+    width: 100%;
+  }
+}
+
+// RESPONSIVE FONT SIZE HACK
+// -------------------------
+
+@fontSizeXtraLarge: @baseFontSize * 4;
+// ~54px
+@fontSizeLarge: @baseFontSize * 1.25;
+// ~18px
+@fontSizeSmall: @baseFontSize * 0.85;
+// ~12px
+@fontSizeMini: @baseFontSize * 0.75;
+// ~11px
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

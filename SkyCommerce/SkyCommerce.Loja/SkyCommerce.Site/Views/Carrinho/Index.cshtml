@@ -1,0 +1,250 @@
+﻿@using SkyCommerce.Extensions
+@model CarrinhoViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input').on('ifChecked', function (event) {
+                //console.log(event.type + ' callback');
+                document.getElementById('formFrete').submit();
+            });
+
+        });
+    </script>
+}
+
+<div class="container main-container headerOffset">
+    <div class="row">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="active">Carrinho</li>
+            </ul>
+        </div>
+    </div>
+    <!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-7 col-xs-6 col-xxs-12 text-center-xs">
+            <h1 class="section-title-inner">
+                <span>
+                    <i class="glyphicon glyphicon-shopping-cart"></i> Seu carrinho
+                </span>
+            </h1>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar col-xs-6 col-xxs-12 text-center-xs">
+            <h4 class="caps"><a asp-controller="Home" asp-action="Index"><i class="fa fa-chevron-left"></i> Voltar</a></h4>
+        </div>
+    </div>
+    <!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-7">
+            <div class="row userInfo">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="cartContent w100">
+
+                        @if (Model.Carrinho != null)
+                        {
+                            <table class="cartTable table-responsive" style="width: 100%">
+                                <tbody>
+
+                                    <tr class="CartProduct cartTableHeader">
+                                        <td style="width: 15%"> Produto</td>
+                                        <td style="width: 40%">Detalhes</td>
+                                        <td style="width: 10%" class="delete">&nbsp;</td>
+                                        <td style="width: 10%">QNT</td>
+                                        <td style="width: 15%">Total</td>
+                                    </tr>
+                                    @foreach (var item in Model.Carrinho.Items)
+                                    {
+                                        var formRemover = "form" + item.NomeUnico;
+                                        var formQuantidade = "formQtd" + item.NomeUnico;
+                                        <tr class="CartProduct">
+                                            <td class="CartProductThumb">
+                                                <div>
+                                                    <a asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@item.NomeUnico">
+                                                        <img src="@item.Imagem" alt="@item.Produto">
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="CartDescription">
+                                                    <h4><a asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@item.NomeUnico"> @item.Produto </a></h4>
+
+                                                    <div class="price"><span> @item.Valor.ToString("C") </span></div>
+                                                </div>
+                                            </td>
+                                            <td class="delete">
+                                                <form asp-controller="Carrinho" id="@formRemover" asp-action="Remover">
+                                                    <input type="hidden" name="NomeUnico" value="@item.NomeUnico" />
+                                                </form>
+                                                <a title="Delete" onclick="document.getElementById('@formRemover').submit();">
+                                                    <i class="glyphicon glyphicon-trash fa-2x"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+
+                                                <form asp-controller="Carrinho" id="@formQuantidade" asp-action="Quantidade">
+                                                    <input type="hidden" name="NomeUnico" value="@item.NomeUnico" />
+                                                    <input class="quanitySniper" type="text" value="@item.Quantidade" name="Quantidade" onchange="document.getElementById('@formQuantidade').submit();">
+                                                </form>
+                                            </td>
+                                            <td class="price">@item.Total.ToString("C")</td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <h3>Carrinho vazio</h3>
+                        }
+
+                    </div>
+                    <!--cartContent-->
+
+                    <div class="cartFooter w100">
+                        <div class="box-footer">
+                            <div class="pull-left">
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-default">
+                                    <i class="fa fa-arrow-left"></i> &nbsp; Continuar comprando
+                                </a>
+                            </div>
+                            @if (Model.Carrinho != null)
+                            {
+                                <div class="pull-right">
+                                    <a asp-controller="Checkout" asp-action="Index" class="btn btn-primary">
+                                        Ir para pagamento&nbsp; <i class="fa fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <!--/ cartFooter -->
+
+                </div>
+            </div>
+            <!--/row end-->
+
+        </div>
+
+        @if (Model.Carrinho != null)
+        {
+            <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar">
+                <div class="contentBox">
+                    <div class="w100 costDetails">
+                        <div class="table-block" id="order-detail-content">
+                            <a class="btn btn-primary btn-lg btn-block "
+                               title="checkout" asp-controller="Checkout"
+                               asp-action="Index"
+                               style="margin-bottom: 20px">
+                                Seguir para o pagamento &nbsp; <i class="fa fa-arrow-right"></i>
+                            </a>
+
+                            <div class="w100 cartMiniTable">
+                                <table id="cart-summary" class="std table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Total produtos</td>
+                                            <td class="price">@Model.Carrinho.TotalProdutos.ToString("C")</td>
+                                        </tr>
+                                        <tr style="">
+                                            <td>Entrega</td>
+
+                                            @if (Model.Carrinho.TotalProdutos > 200)
+                                            {
+                                                <td class="price">
+                                                    <span class="success">Gratuita</span>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="price" style="        text-align: left !important;font-size: 12px;">
+                                                    <form id="formFrete" asp-controller="Carrinho" asp-action="SelecionarFrete">
+                                                        @foreach (var frete in Model.Fretes)
+                                                        {
+                                                            var selecionado = Model.Carrinho.Frete?.Modalidade == frete.Modalidade ? "checked=\"checked\"" : string.Empty;
+
+                                                            <label><input type="radio" @selecionado name="Modalidade" value="@frete.Modalidade" />@frete.Modalidade: @frete.Valor.ToString("C")</label>
+                                                        }
+                                                    </form>
+                                                </td>
+                                            }
+
+                                        </tr>
+                                        <tr class="cart-total-price ">
+                                            <td>Total (sem impostos.)</td>
+                                            <td class="price">@Model.Carrinho.TotalSemImposto.ToString("C")</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Impostos</td>
+                                            <td class="price" id="total-tax">@Model.Carrinho.Imposto.ToString("C")</td>
+                                        </tr>
+                                        @if (Model.Carrinho.Cupom.IsPresent())
+                                        {
+                                            <tr>
+                                                <td> Cupom: @Model.Carrinho.Cupom.Substring(0, 5)</td>
+                                                <td class=" site-color" id="total-price">@Model.Carrinho.PercentualDesconto.ToString("N")%</td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td> Total</td>
+                                            <td class=" site-color" id="total-price">@Model.Carrinho.Total.ToString("C")</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="input-append couponForm">
+                                                    <form asp-controller="Carrinho" id="removerCarrinho" asp-action="Cupom">
+                                                        <input class="col-lg-8" id="appendedInputButton" name="Cupom" type="text"
+                                                               placeholder="Cupom">
+                                                        <button class="col-lg-4 btn btn-success" type="submit">Aplicar!</button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="w100 cartMiniTable">
+                                <h4>Frete</h4>
+                                <table class="table table-responsive">
+                                    <tbody>
+                                        @foreach (var frete in Model.Fretes)
+                                        {
+                                            <tr>
+                                                <td><b>@frete.Modalidade</b></td>
+                                                <td>@frete.Descricao</td>
+                                                <td>@frete.Valor.ToString("C")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="3">* Gratuito em compras acima de R$ 200,00</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End popular -->
+
+            </div>
+            <!--/rightSidebar-->
+        }
+    </div>
+    <!--/row-->
+
+    <div style="clear:both"></div>
+</div>
+<!-- /.main-container -->

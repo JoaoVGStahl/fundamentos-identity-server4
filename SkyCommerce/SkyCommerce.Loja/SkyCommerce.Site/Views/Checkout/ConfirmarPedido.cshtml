@@ -1,0 +1,101 @@
+﻿@model SkyCommerce.Models.Pedido
+@{
+    ViewData["Title"] = "Detalhes do pedido";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container main-container headerOffset">
+    <div class="row">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="category.html">Category</a></li>
+                <li class="active"> Order</li>
+            </ul>
+        </div>
+    </div>
+    <!--/.row-->
+
+
+    <div class="row">
+        <div class="col-lg-9 ">
+            <div class="row userInfo">
+
+                <div class="thanxContent text-center">
+
+                    <h1> Obrigado pela compra <a asp-controller="Pedidos" asp-action="Detalhes" asp-route-identificador="@Model.IdentificadorUnico">#@Model.IdentificadorUnico</a></h1>
+                    <h4>O pagamento será processado. Avisaremos assim que for processado.</h4>
+
+                </div>
+
+                <div class="col-lg-7 col-center">
+                    <h4></h4>
+
+                    <div class="cartContent table-responsive  w100">
+                        <table style="width: 100%" class="cartTable cartTableBorder">
+                            <thead>
+                                <tr class="CartProduct  cartTableHeader">
+                                    <th colspan="3"> Produtos comprados</th>
+
+
+                                    <th style="width: 15%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model.Produtos)
+                                {
+                                    <tr class="CartProduct">
+                                        <td class="CartProductThumb">
+                                            <div>
+                                                <a asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@item.NomeUnico"><img alt="@item.Nome" src="@item.Imagem"></a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="CartDescription">
+                                                <h4><a asp-controller="Catalogo" asp-action="Detalhes" asp-route-produto="@item.NomeUnico">@item.Nome</a></h4>
+
+                                                <div class="price"><span>@item.Valor.ToString("C")</span></div>
+                                            </div>
+                                        </td>
+
+                                        <td class="prices">
+                                            @item.Quantidade
+                                        </td>
+                                        <td class="price">@item.Total.ToString("C")</td>
+                                    </tr>
+                                }
+                                @if (Model.Frete.Modalidade == "Gratis")
+                                {
+                                    <tr>
+                                        <td colspan="4" class="price text-center"><span class="success">Entrega Gratis</span></td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td class="CartDescription">Frete - @Model.Frete.Modalidade</td>
+                                        <td class="CartDescription">@Model.Frete.Descricao</td>
+                                        <td class="price">@Model.Frete.Valor.ToString("C")</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <!--/row end-->
+
+        </div>
+
+        <!--/rightSidebar-->
+
+    </div>
+    <!--/row-->
+
+    <div style="clear:both"></div>
+</div>

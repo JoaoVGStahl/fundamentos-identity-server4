@@ -1,0 +1,327 @@
+﻿@using SkyCommerce.Domain
+@using SkyCommerce
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="@Url.Content("/assets/ico/apple-touch-icon-144-precomposed.png")">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="@Url.Content("/assets/ico/apple-touch-icon-114-precomposed.png")">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="@Url.Content("/assets/ico/apple-touch-icon-72-precomposed.png")">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="assets/ico/favicon.png">
+    <title>SkyCommerce - @ViewData["Title"]</title>
+    <!-- Bootstrap core CSS -->
+    <link href="@Url.Content("/assets/bootstrap/css/bootstrap.css")" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="@Url.Content("/assets/css/style.css")" rel="stylesheet">
+
+    <!-- Just for debugging purposes. -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <!-- include pace script for automatic web page progress bar  -->
+
+    @RenderSection("Styles", required: false)
+
+    <script>
+        paceOptions = {
+            elements: true
+        };
+    </script>
+
+    <script src="@Url.Content("/assets/js/pace.min.js")"></script>
+
+</head>
+
+<body>
+    <!-- Fixed navbar start -->
+    <div class="navbar navbar-tshop navbar-fixed-top megamenu" role="navigation">
+
+        <div class="navbar-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
+                        <div class="pull-left ">
+                            <ul class="userMenu ">
+                                <li>
+                                    <a href="#">
+                                        <span class="hidden-xs">AJUDA</span><i class="glyphicon glyphicon-info-sign hide visible-xs "></i>
+                                    </a>
+                                </li>
+                                <li class="phone-number">
+                                    <a href="callto:@DadosGerais.TelefoneSuporte">
+                                        <span class="hidden-xs" style="margin-left: 5px"> @DadosGerais.TelefoneSuporte </span>&nbsp;&nbsp;<i class="glyphicon glyphicon-phone-alt "></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6 no-margin no-padding">
+                        <div class="pull-right">
+                            <ul class="userMenu">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li>
+                                        <a asp-controller="Account" asp-action="MinhaConta">
+                                            <span class="hidden-xs"> Minha Conta</span> <i class="glyphicon glyphicon-user hide visible-xs "></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Account" asp-action="Sair">
+                                            <span class="hidden-xs"> Sair</span> <i class="glyphicon glyphicon-user hide visible-xs "></i>
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a asp-controller="Account" asp-action="Login">
+                                            <span class="hidden-xs">Logar</span>
+                                            <i class="glyphicon glyphicon-log-in hide visible-xs "></i>
+                                        </a>
+                                    </li>
+
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/.navbar-top-->
+
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only"> Toggle navigation </span> <span class="icon-bar"> </span> <span class="icon-bar"> </span> <span class="icon-bar"> </span>
+                </button>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-cart">
+                    <i class="fa fa-shopping-cart colorWhite"> </i> <span class="cartRespons colorWhite"> Carrinho ($210.00) </span>
+                </button>
+                <a class="navbar-brand " asp-controller="Home" asp-action="Index"> <img src="@Url.Content("/images/logo.png")" alt="SkyCommerce"> </a>
+
+                <div class="search-box static-search">
+
+                    <form id="search-form" method="GET" asp-action="Lista" asp-controller="Home" role="search" class="navbar-form">
+                        <div class="input-group">
+                            <input type="text" style="padding:6px 6px;" name="query" placeholder="Search..."
+                                   class="form-control">
+
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- /input-group -->
+
+                </div>
+                <!--/.search-box -->
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @await Component.InvokeAsync("CarrinhoMobile")
+                @await Component.InvokeAsync("Carrinho")
+            }
+
+        </div>
+        <!--/.container -->
+    </div>
+    <!-- /.Fixed navbar  -->
+
+
+    @RenderBody()
+
+
+    <div class="gap">
+
+    </div>
+
+
+    <footer>
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3  col-md-3 col-sm-4 col-xs-6">
+                        <h3> Central </h3>
+                        <ul>
+                            <li class="supportLi">
+                                <p> Dúvidas, reclamações ou sugestões </p>
+                                <h4>
+                                    <a class="inline" href="callto:@DadosGerais.TelefoneSuporte">
+                                        <strong>
+                                            <i class="fa fa-phone"> </i>
+                                            @DadosGerais.TelefoneSuporte
+                                        </strong>
+                                    </a>
+                                </h4>
+                                <span>
+                                    <a class="inline" href="mailto:@DadosGerais.EmailSuporte">
+                                        <i class="fa fa-envelope-o"> </i>
+                                        @DadosGerais.EmailSuporte
+                                    </a>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                        <h3> Departamentos </h3>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    Homens
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Mulheres
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Crianças
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Sapatos
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Presentes
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <div style="clear:both" class="hide visible-xs"></div>
+
+                    <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                        <h3> Informações </h3>
+                        <ul class="list-unstyled footer-nav">
+                            <li>
+                                <a href="#">
+                                    Questões?
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    Pedidos
+                                </a>
+                            </li>
+                            <li><a href="#"> Politica de devolução </a></li>
+                            <li>
+                                <a href="#">
+                                    Entre em contato
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                        <h3> Minha conta </h3>
+                        <ul>
+                            <li><a href="account.html"> Minha Conta </a></li>
+                            <li><a href="my-address.html"> Endereço </a></li>
+                            <li><a href="wishlist.html"> Desejos </a></li>
+                            <li><a href="order-list.html"> Compras </a></li>
+                            <li><a href="order-status.html"> Pagamentos </a></li>
+                        </ul>
+                    </div>
+
+                    <div style="clear:both" class="hide visible-xs"></div>
+
+                    <div class="col-lg-3  col-md-3 col-sm-6 col-xs-12 ">
+                        <h3> Fique por dentro </h3>
+                        <ul>
+                            <li>
+                                <div class="input-append newsLatterBox text-center">
+                                    <input type="text" class="full text-center" placeholder="Email ">
+                                    <button class="btn  bg-gray" type="button">
+                                        Subscribe <i class="fa fa-long-arrow-right"> </i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="social">
+                            <li><a target="_blank" href="https://facebook.com/brunohbrito"> <i class=" fa fa-facebook"> &nbsp; </i> </a></li>
+                            <li><a target="_blank" href="https://www.linkedin.com/in/bhdebrito/"> <i class="fa fa-linkedin"> &nbsp; </i> </a></li>
+                            <li><a target="_blank" href="https://brunobrito.net.br"> <i class="fa fa-globe"> &nbsp; </i> </a></li>
+                            <li><a target="_blank" href="https://twitter.com/bruno_hbrito"> <i class="fa fa-twitter"> &nbsp; </i> </a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!--/.row-->
+            </div>
+            <!--/.container-->
+        </div>
+        <!--/.footer-->
+
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="pull-left"> &copy; SkyCommerce 2014. All right reserved. </p>
+
+                <div class="pull-right paymentMethodImg">
+                    <img height="30" class="pull-right"
+                         src="@Url.Content("/images/site/payment/master_card.png")" alt="img"> <img height="30" class="pull-right" src="@Url.Content("/images/site/payment/visa_card.png")" alt="img"><img height="30"
+                                                                                                                                                                                                           class="pull-right"
+                                                                                                                                                                                                           src="@Url.Content("/images/site/payment/paypal.png")"
+                                                                                                                                                                                                           alt="img">
+                    <img height="30" class="pull-right" src="@Url.Content("/images/site/payment/american_express_card.png")" alt="img"> <img height="30" class="pull-right" src="@Url.Content("/images/site/payment/discover_network_card.png")" alt="img">
+                    <img height="30" class="pull-right" src="@Url.Content("/images/site/payment/google_wallet.png")" alt="img">
+
+                </div>
+            </div>
+        </div>
+        <!--/.footer-bottom-->
+    </footer>
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="@Url.Content("/assets/js/jquery/jquery-2.1.3.min.js")"></script>
+    <script src="@Url.Content("/assets/bootstrap/js/bootstrap.min.js")"></script>
+    <!-- include  parallax plugin -->
+    <script type="text/javascript" src="@Url.Content("/assets/js/jquery.parallax-1.1.js")"></script>
+
+    <!-- optionally include helper plugins -->
+    <script type="text/javascript" src="@Url.Content("/assets/js/helper-plugins/jquery.mousewheel.min.js")"></script>
+
+    <!-- include mCustomScrollbar plugin //Custom Scrollbar  -->
+
+    <script type="text/javascript" src="@Url.Content("/assets/js/jquery.mCustomScrollbar.js")"></script>
+
+    <!-- include icheck plugin // customized checkboxes and radio buttons   -->
+    <script type="text/javascript" src="@Url.Content("/assets/plugins/icheck-1.x/icheck.min.js")"></script>
+
+    <!-- include grid.js // for equal Div height  -->
+    <script src="@Url.Content("/assets/plugins/jquery-match-height-master/dist/jquery.matchHeight-min.js")"></script>
+    <script src="@Url.Content("/assets/js/grids.js")"></script>
+
+    <!-- include carousel slider plugin  -->
+    <script src="@Url.Content("/assets/js/owl.carousel.min.js")"></script>
+
+    <!-- jQuery select2 // custom select   -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+
+    <!-- include touchspin.js // touch friendly input spinner component   -->
+    <script src="@Url.Content("/assets/js/bootstrap.touchspin.js")"></script>
+
+    <!-- include custom script for site  -->
+    <script src="@Url.Content("/assets/js/script.js")"></script>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>
